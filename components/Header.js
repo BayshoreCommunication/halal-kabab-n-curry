@@ -23,6 +23,7 @@ import { Dropdown, Space, Menu } from "antd";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { getError } from "../helpers/error";
+import Image from "next/image";
 
 const nav__links = [
   {
@@ -74,7 +75,7 @@ const items = [
       </a>
     ),
     icon: <ShoppingCartOutlined />,
-  }
+  },
 ];
 
 function Header(props) {
@@ -145,7 +146,15 @@ function Header(props) {
               <span className="menu__btn" onClick={sidebarOpenHandler}>
                 <i className="ri-menu-line"></i>
               </span>
-              <span className="logo__text">Delivera</span>
+              <span className="logo__text">
+                <Image
+                  src="/images/halal-kabab-logo.svg"
+                  alt="halal-kabab-logo"
+                  className="halal-logo"
+                  height={300}
+                  width={300}
+                />
+              </span>
             </div>
           </div>
 
@@ -155,7 +164,7 @@ function Header(props) {
             open={sidbarVisible}
             onClose={sidebarCloseHandler}
             className="drawer__left"
-            style={{ zIndex: "9999"}}
+            style={{ zIndex: "9999" }}
           >
             <List>
               <ListItem>
@@ -180,9 +189,13 @@ function Header(props) {
                   legacyBehavior
                 >
                   <a>
-                  <ListItem button component="a" onClick={sidebarCloseHandler}>
-                    <ListItemText primary={category}></ListItemText>
-                  </ListItem>
+                    <ListItem
+                      button
+                      component="a"
+                      onClick={sidebarCloseHandler}
+                    >
+                      <ListItemText primary={category}></ListItemText>
+                    </ListItem>
                   </a>
                 </Link>
               ))}
@@ -211,21 +224,22 @@ function Header(props) {
           {/** RIGHT ICON MENU */}
 
           <div className="nav__right d-flex align-items-center gap-4">
-                <span className="cart__icon" onClick={()=>{router.push('/cart')}}>
-                  <i className="ri-shopping-basket-line"></i>
-                  <span className="cart__badge">
-                    {userCart.cartItems ? (
-                      <>{userCart.cartItems.length}</>
-                    ) : (
-                      <>0</>
-                    )}
-                  </span>
-                </span>
+            <span
+              className="cart__icon"
+              onClick={() => {
+                router.push("/cart");
+              }}
+            >
+              <i className="ri-shopping-basket-line"></i>
+              <span className="cart__badge">
+                {userCart.cartItems ? <>{userCart.cartItems.length}</> : <>0</>}
+              </span>
+            </span>
             {user ? (
               <Dropdown
-              menu={{
-                items,
-              }}
+                menu={{
+                  items,
+                }}
               >
                 <a className="link__color" onClick={(e) => e.preventDefault()}>
                   <Space>
@@ -235,11 +249,16 @@ function Header(props) {
                 </a>
               </Dropdown>
             ) : (
-                  <span className="user" onClick={()=>{router.push('/login')}}>
-                    <a className="link__color">
-                      <i className="ri-user-line"></i>
-                    </a>
-                  </span>
+              <span
+                className="user"
+                onClick={() => {
+                  router.push("/login");
+                }}
+              >
+                <a className="link__color">
+                  <i className="ri-user-line"></i>
+                </a>
+              </span>
             )}
 
             <span className="mobile__menu" onClick={toggleMenu}>

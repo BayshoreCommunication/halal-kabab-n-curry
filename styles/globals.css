@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap");
 /* google fonts */
 
 @import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
@@ -51,23 +51,23 @@ section {
   padding: 10px 0px;
 }
 
-.cursor__pointer{
-  cursor:pointer
+.cursor__pointer {
+  cursor: pointer;
 }
 
-.link__color{
+.link__color {
   color: #212245;
 }
 
-.link__color:hover{
+.link__color:hover {
   color: #0a58ca;
 }
 
-.bg__2{
+.bg__2 {
   background-color: #fde4e4 !important;
 }
 
-.btn__2{
+.btn__2 {
   width: 100%;
   height: 44px;
   display: flex;
@@ -83,13 +83,11 @@ section {
   transition: all 0.8;
 }
 
-.btn__2:hover{
+.btn__2:hover {
   background-color: white;
   border: 1px solid #df2020;
   color: #df2020;
 }
-
-
 
 .upload__btn {
   background-color: rgb(110, 101, 100);
@@ -112,30 +110,29 @@ section {
   }
 }
 /*** SEARCH BAR */
-.searchForm{
+.searchForm {
   border: 1px solid #ccc;
   background-color: white;
   border-radius: 5px;
   height: 40px;
   width: 100%;
   padding-left: 6px;
-  display:flex;
+  display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
 
-.searchInput{
+.searchInput {
   width: 80%;
 }
- 
-.iconButton i{
+
+.iconButton i {
   font-size: 1rem;
 }
 
-
 /** Map Input Box **/
 
-.mapInputBox{
+.mapInputBox {
   position: absolute;
   display: flex;
   left: 0;
@@ -145,9 +142,8 @@ section {
   height: 40px;
 }
 
-.mapInputBox input{
+.mapInputBox input {
   width: 250px;
-
 }
 
 /** HEADER STYLES*/
@@ -166,17 +162,17 @@ a {
   text-align: center;
 }
 
-.logo__text{
+.logo__text {
   font-weight: bold;
   color: #df2020;
-  font-size:  25px;
-  font-family: 'Pacifico';
+  font-size: 25px;
+  font-family: "Pacifico";
   margin-left: 20px;
   margin-bottom: 3px;
 }
 
 @media only screen and (max-width: 383px) {
-  .logo__text{
+  .logo__text {
     display: none;
   }
 }
@@ -188,10 +184,10 @@ a {
   margin-top: -40px;
   margin-bottom: 0;
 }
-.menu__btn{
+.menu__btn {
   margin-right: 4px;
 }
-.menu__btn i{
+.menu__btn i {
   font-size: 1.4rem;
   color: #212245;
   cursor: pointer;
@@ -342,18 +338,18 @@ a {
   margin-bottom: 15px;
 }
 
-.send__btn{
-    background-color: #da5767;
-    color: white;
-    transition: all 1s;
+.send__btn {
+  background-color: #da5767;
+  color: white;
+  transition: all 1s;
 }
 
-.send__btn:hover{
-    background-color: #df2020;
+.send__btn:hover {
+  background-color: #df2020;
 }
 
-.contact__text{
-    font-size: 16px;
+.contact__text {
+  font-size: 16px;
 }
 
 /*** Loader ***/
@@ -392,9 +388,9 @@ a {
 
 .spinner {
   position: absolute;
-  top: 40%;  /* position the top  edge of the element at the middle of the parent */
+  top: 40%; /* position the top  edge of the element at the middle of the parent */
   left: 40%; /* position the left edge of the element at the middle of the parent */
-/* 
+  /* 
   transform: translate(-50%, -50%) !important; */
   margin: -80px 0 0 -80px;
   width: 160px;
@@ -550,9 +546,8 @@ a {
   .hero__img {
     width: 300px;
   }
-
 }
-  
+
 @media only screen and (max-width: 576px) {
   .hero__img {
     width: 100%;
@@ -560,7 +555,6 @@ a {
     margin-top: 50px;
   }
 }
-
 
 /** FOOTER STYLES ****/
 
@@ -629,7 +623,7 @@ a {
   background: #df2020;
   padding: 5px 30px;
   border-radius: 5px;
-  border:none;
+  border: none;
 }
 
 .newsletter button i {
@@ -743,7 +737,7 @@ a {
 .all__foods-btn {
   background: transparent;
   border: 1px solid #df2020 !important;
-  transition: all .6s;
+  transition: all 0.6s;
 }
 
 .all__foods-btn a {
@@ -753,10 +747,10 @@ a {
 
 .all__foods-btn:hover {
   background-color: #df2020;
-  color: white
+  color: white;
 }
 
-.all__foods-btn:hover a{
+.all__foods-btn:hover a {
   color: white;
 }
 
@@ -815,7 +809,7 @@ a {
   color: #777;
 }
 
-.feature__img img{
+.feature__img img {
   text-align: center;
 }
 
@@ -912,7 +906,7 @@ a {
   transition: 0.3s all;
 }
 
-.btn__3{
+.btn__3 {
   background-color: #df2020;
   border: none;
   padding: 7px 25px;
@@ -924,8 +918,8 @@ a {
   border: 1px solid #df2020;
 }
 
-.btn__3:hover{
-  background-color:#fff;
+.btn__3:hover {
+  background-color: #fff;
   color: #df2020;
   border: 1px solid #df2020;
 }
@@ -977,7 +971,6 @@ a {
   color: #777;
 }
 
-
 .testimonial__subtitle {
   color: #df2020;
 }
@@ -1007,7 +1000,7 @@ a {
   margin-right: 30px;
 }
 
-.drawer__left{
+.drawer__left {
   width: 360px;
 }
 @media only screen and (max-width: 768px) {
@@ -1663,7 +1656,7 @@ h1 {
   color: gray;
 }
 
-.account__text{
+.account__text {
   margin: 0;
   padding: 0;
   font-size: 12px;
@@ -1710,6 +1703,10 @@ h1 {
   padding: 20px;
 }
 
-.activateContainer{
+.activateContainer {
   max-width: 350px;
+}
+.halal-logo {
+  height: 5rem;
+  width: auto;
 }
