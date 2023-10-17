@@ -5,13 +5,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { Store } from "../../helpers/Store";
 import axios from "axios";
-import { Container, Col, Row, ListGroup, ListGroupItem, Table } from "reactstrap";
+import {
+  Container,
+  Col,
+  Row,
+  ListGroup,
+  ListGroupItem,
+  Table,
+} from "reactstrap";
 import CommonSection from "../../components/UI/CommonSection";
 import { toast, ToastContainer } from "react-toastify";
 import dynamic from "next/dynamic";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import CheckoutWizard from "../../components/checkoutWizard";
 import { getError } from "../../helpers/error";
+import CheckWizard from "../../components/CheckWizard";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -28,21 +35,21 @@ function reducer(state, action) {
     case "PAY_FAIL":
       return { ...state, loadingPay: false, errorPay: action.payload };
     case "PAY_RESET":
-      case 'PAY_RESET':
-        return { ...state, loadingPay: false, successPay: false, errorPay: '' };
-      case 'DELIVER_REQUEST':
-        return { ...state, loadingDeliver: true };
-      case 'DELIVER_SUCCESS':
-        return { ...state, loadingDeliver: false, successDeliver: true };
-      case 'DELIVER_FAIL':
-        return { ...state, loadingDeliver: false, errorDeliver: action.payload };
-      case 'DELIVER_RESET':
-        return {
-          ...state,
-          loadingDeliver: false,
-          successDeliver: false,
-          errorDeliver: '',
-        };
+    case "PAY_RESET":
+      return { ...state, loadingPay: false, successPay: false, errorPay: "" };
+    case "DELIVER_REQUEST":
+      return { ...state, loadingDeliver: true };
+    case "DELIVER_SUCCESS":
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    case "DELIVER_FAIL":
+      return { ...state, loadingDeliver: false, errorDeliver: action.payload };
+    case "DELIVER_RESET":
+      return {
+        ...state,
+        loadingDeliver: false,
+        successDeliver: false,
+        errorDeliver: "",
+      };
     default:
       state;
   }
@@ -55,14 +62,14 @@ function Order({ params }) {
   const { state } = useContext(Store);
   const { userInfo } = state;
 
-  const [{ loading, error, order, successPay, loadingDeliver, successDeliver }, dispatch] = useReducer(
-    reducer,
-    {
-      loading: true,
-      order: {},
-      error: "",
-    }
-  );
+  const [
+    { loading, error, order, successPay, loadingDeliver, successDeliver },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    order: {},
+    error: "",
+  });
 
   const {
     shippingAddress,
@@ -97,7 +104,12 @@ function Order({ params }) {
       }
     };
 
-    if (!order._id || successPay || successDeliver || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchOrder();
 
       if (successPay) {
@@ -105,9 +117,8 @@ function Order({ params }) {
       }
 
       if (successDeliver) {
-        dispatch({ type: 'DELIVER_RESET' });
+        dispatch({ type: "DELIVER_RESET" });
       }
-
     } else {
       const loadPaypalScript = async () => {
         const { data: clientId } = await axios.get("/api/keys/paypal", {
@@ -166,7 +177,7 @@ function Order({ params }) {
 
   async function deliverOrderHandler() {
     try {
-      dispatch({ type: 'DELIVER_REQUEST' });
+      dispatch({ type: "DELIVER_REQUEST" });
       const { data } = await axios.put(
         `/api/orders/${order._id}/deliver`,
         {},
@@ -174,10 +185,10 @@ function Order({ params }) {
           headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
-      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
-      toast.success('Order is delivered');
+      dispatch({ type: "DELIVER_SUCCESS", payload: data });
+      toast.success("Order is delivered");
     } catch (err) {
-      dispatch({ type: 'DELIVER_FAIL', payload: getError(err) });
+      dispatch({ type: "DELIVER_FAIL", payload: getError(err) });
       toast.error(`${getError(err)}`);
     }
   }
@@ -185,8 +196,13 @@ function Order({ params }) {
   return (
     <>
       <Head>
-        <title>Delivera | Order |  Food Delivery and Takeout | Order Online</title>
-        <meta name="description" content="We deliver your takeouts or essential groceries from the best-rated local partners straight to your door. Download our app or order online. Food. We Get It." />
+        <title>
+          Delivera | Order | Food Delivery and Takeout | Order Online
+        </title>
+        <meta
+          name="description"
+          content="We deliver your takeouts or essential groceries from the best-rated local partners straight to your door. Download our app or order online. Food. We Get It."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CommonSection title={`Order ${orderId}`} />
@@ -198,7 +214,7 @@ function Order({ params }) {
       ) : (
         <section>
           <Container>
-            {!isPaid && <CheckoutWizard activeStep={3} />}
+            {!isPaid && <CheckWizard activeStep={3} />}
             <Row>
               <Col lg="8" md="6">
                 <ListGroup>
@@ -208,16 +224,15 @@ function Order({ params }) {
                     {shippingAddress.city}, {shippingAddress.postalCode},{" "}
                     {shippingAddress.country}
                     &nbsp;
-
                     {shippingAddress.location && (
-                    <Link
-                      variant="button"
-                      target="_new"
-                      href={`https://maps.google.com?q=${shippingAddress.location.lat},${shippingAddress.location.lng}`}
-                    >
-                      Show On Map
-                    </Link>
-                  )}
+                      <Link
+                        variant="button"
+                        target="_new"
+                        href={`https://maps.google.com?q=${shippingAddress.location.lat},${shippingAddress.location.lng}`}
+                      >
+                        Show On Map
+                      </Link>
+                    )}
                   </ListGroupItem>
                   <ListGroupItem>
                     <h6 className="mb-4">Payment Method</h6>
@@ -304,16 +319,19 @@ function Order({ params }) {
                     </ListGroupItem>
                   )}
 
-                  {
-                    userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                      <ListGroupItem>
-                          {loadingDeliver && (<div>Loading...</div>) }
-                         <div style={{width: '100%'}}>
-                            <button className="btn__2"  onClick={deliverOrderHandler}>Deliver Order</button>
-                         </div>
-                      </ListGroupItem>
-                    )
-                  }
+                  {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                    <ListGroupItem>
+                      {loadingDeliver && <div>Loading...</div>}
+                      <div style={{ width: "100%" }}>
+                        <button
+                          className="btn__2"
+                          onClick={deliverOrderHandler}
+                        >
+                          Deliver Order
+                        </button>
+                      </div>
+                    </ListGroupItem>
+                  )}
                 </ListGroup>
               </Col>
             </Row>
