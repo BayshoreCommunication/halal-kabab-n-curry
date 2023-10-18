@@ -43,7 +43,7 @@ const nav__links = [
     path: "/cart",
   },
   {
-    display: "contact",
+    display: "Contact",
     path: "/contact",
   },
 ];

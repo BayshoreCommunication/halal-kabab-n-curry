@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
+    const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
@@ -34,17 +34,16 @@ function MyApp({ Component, pageProps }) {
   });
   return (
     <StoreProvider>
-        <PayPalScriptProvider deferLoading={true}>
-      {loading ? (
-        <Spinner />
-      ) : (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-
-      )}
+      <PayPalScriptProvider deferLoading={true}>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        )}
       </PayPalScriptProvider>
- </StoreProvider>
+    </StoreProvider>
   );
 }
 
