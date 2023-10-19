@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
 import { Container, Row, Col } from "reactstrap";
-import axios from 'axios';
+import axios from "axios";
 import {
   Box,
   Button,
@@ -14,14 +14,14 @@ import {
   Select,
   Typography,
   InputBase,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import db from "../helpers/db";
 import Product from "../models/Product";
 import { Store } from "../helpers/Store";
 import ProductCard from "../components/UI/ProductCard";
-import Rating from '@material-ui/lab/Rating';
-import { Pagination } from '@material-ui/lab';
+import Rating from "@material-ui/lab/Rating";
+import { Pagination } from "@material-ui/lab";
 
 const PAGE_SIZE = 6;
 
@@ -44,7 +44,7 @@ const ratings = [1, 2, 3, 4, 5];
 
 export default function search(props) {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const {
     query = "all",
     category = "all",
@@ -97,13 +97,13 @@ export default function search(props) {
     filterSearch({ rating: e.target.value });
   };
 
-  const queryChangeHandler= (e) => {
+  const queryChangeHandler = (e) => {
     setSearchQuery(e.target.value);
-  }
+  };
   const submitHandler = (e) => {
     e.preventDefault();
-    router.push(`/search?query=${searchQuery}`)
-  }
+    router.push(`/search?query=${searchQuery}`);
+  };
 
   const { state, dispatch } = useContext(Store);
 
@@ -124,13 +124,32 @@ export default function search(props) {
   return (
     <>
       <Head>
-        <title>Delivera | Food Delivery and Takeout | Order Online</title>
-        <meta name="description" content="We deliver your takeouts or essential groceries from the best-rated local partners straight to your door. Download our app or order online. Food. We Get It." />
+        <title>
+          Halal Kabab & Curry | Food Delivery and Takeout | Order Online
+        </title>
+        <meta
+          name="description"
+          content="We deliver your takeouts or essential groceries from the best-rated local partners straight to your door. Download our app or order online. Food. We Get It."
+        />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-        <link rel="manifest" href="/site.webmanifest"/>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <main>
         <ToastContainer />
@@ -143,8 +162,19 @@ export default function search(props) {
                     <Box className="w-100">
                       <Typography>Search Food</Typography>
                       <form onSubmit={submitHandler} className="searchForm">
-                         <InputBase name="query" className="searchInput" placeholder="Search foods" onChange={queryChangeHandler} />
-                         <IconButton type="submit" className="iconButton" arial-label="search"><i className="ri-search-line searchIcon"></i></IconButton>
+                        <InputBase
+                          name="query"
+                          className="searchInput"
+                          placeholder="Search foods"
+                          onChange={queryChangeHandler}
+                        />
+                        <IconButton
+                          type="submit"
+                          className="iconButton"
+                          arial-label="search"
+                        >
+                          <i className="ri-search-line searchIcon"></i>
+                        </IconButton>
                       </form>
                     </Box>
                   </ListItem>
@@ -201,10 +231,7 @@ export default function search(props) {
                 </List>
               </Grid>
               <Grid item md={9}>
-                <Grid
-                  container
-                  className="d-flex justify-content-between"
-                >
+                <Grid container className="d-flex justify-content-between">
                   <Grid item>
                     {products.length === 0 ? "No" : countProducts} Results
                     {query !== "all" && query !== "" && " : " + query}
@@ -233,10 +260,13 @@ export default function search(props) {
                       <MenuItem value="newest">Newest Arrivals</MenuItem>
                     </Select>
                   </Grid>
-
                 </Grid>
 
-                <Grid container className="mt-1 d-flex justify-content-center" spacing={3}>
+                <Grid
+                  container
+                  className="mt-1 d-flex justify-content-center"
+                  spacing={3}
+                >
                   {products.map((item) => (
                     <Grid item md={4} key={item.name}>
                       <ProductCard
@@ -246,14 +276,13 @@ export default function search(props) {
                     </Grid>
                   ))}
                 </Grid>
-       
-                <Pagination
-                className="mt-3"
-                defaultPage={parseInt(query.page || '1')}
-                count={pages}
-                onChange={pageHandler}
-                ></Pagination>
 
+                <Pagination
+                  className="mt-3"
+                  defaultPage={parseInt(query.page || "1")}
+                  count={pages}
+                  onChange={pageHandler}
+                ></Pagination>
               </Grid>
             </Grid>
           </Container>

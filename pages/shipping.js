@@ -87,11 +87,11 @@ function checkout() {
     <>
       <Head>
         <title>
-          Delivera | Shipping | Food Delivery and Takeout | Order Online
+          Halal Kabab & Curry | Food Delivery and Takeout | Order Online
         </title>
         <meta
           name="description"
-          content="We deliver your takeouts or essential groceries from the best-rated local partners straight to your door. Download our app or order online. Food. We Get It."
+          content="We deliver your takeouts from the best-rated local partners straight to your door. Food you Get It."
         />
         <link rel="icon" href="/favicon.ico" />
         <link
