@@ -1711,6 +1711,12 @@ h1 {
   width: auto;
 }
 
+.halal-kabab-footer-logo {
+  height: 5rem;
+  width: auto;
+  margin-bottom: 10px;
+}
+
 .map-frame {
   border: 0px;
   width: 100%;

@@ -1,9 +1,10 @@
-import React from 'react';
-import { Container, Col, Row, ListGroup, ListGroupItem} from 'reactstrap';
-import { toast } from 'react-toastify';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import React from "react";
+import { Container, Col, Row, ListGroup, ListGroupItem } from "reactstrap";
+import { toast } from "react-toastify";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Image from "next/image";
 
 function Footer(props) {
   const {
@@ -12,96 +13,100 @@ function Footer(props) {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = async ({email}) => {
-    try{
+  const submitHandler = async ({ email }) => {
+    try {
       console.log(email);
-      const { data } = await axios.post('/api/newsletter', {
-        email
+      const { data } = await axios.post("/api/newsletter", {
+        email,
       });
-      toast.success('Successfully Subcribed')
-    }catch(err){
-      toast.error(`Something went wrong!`)
+      toast.success("Successfully Subcribed");
+    } catch (err) {
+      toast.error(`Something went wrong!`);
     }
   };
 
   return (
-   <footer className="footer">
-    <Container>
-      <Row>
-        <Col lg="3" md="4" sm="6">
-          <div className="footer__logo text-start ">
-            <span className="logo__text mb-3">
-              Delivera
-            </span>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscingmv
-              dmsfdgg mssdg 
+    <footer className="footer">
+      <Container>
+        <Row>
+          <Col lg="3" md="4" sm="6">
+            <div className="footer__logo text-start ">
+              <span className="logo__text mb-3">
+                <Image
+                  src="/images/halal-kabab-logo.svg"
+                  alt="halal-kabab-logo"
+                  height={300}
+                  width={300}
+                  className="halal-kabab-footer-logo"
+                />
+              </span>
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscingmv dmsfdgg
+                mssdg
+              </div>
             </div>
-          </div>
-        </Col>
+          </Col>
 
-        <Col lg="3" md="4" sm="6">
-          <h5 className="footer__title">Delivery Time</h5>
-          <ListGroup>
-            <ListGroupItem className="delivery__time-item border-0 ps-0">
-              <span>Sunday - Thursday</span>
-              <p>12:00am - 11:00pm</p>
-            </ListGroupItem>
-            <ListGroupItem className="delivery__time-item border-0 ps-0">
-              <span>Friday - Saturday</span>
-              <p>Off day</p>
-            </ListGroupItem>
-          </ListGroup>
-        </Col>
-
-        <Col lg="3" md="4" sm="6">
-          <h5 className="footer__title">Contact</h5>
-          <ListGroup className="delivery__time--list">
+          <Col lg="3" md="4" sm="6">
+            <h5 className="footer__title">Delivery Time</h5>
+            <ListGroup>
               <ListGroupItem className="delivery__time-item border-0 ps-0">
-                <p> Location: California- 876 , Stylist - USA</p>
+                <span>Sunday - Thursday</span>
+                <p>12:00pm - 10:00pm</p>
               </ListGroupItem>
               <ListGroupItem className="delivery__time-item border-0 ps-0">
-                <span>Phone: 001-234-3495-3494</span>
+                <span>Friday - Saturday</span>
+                <p>12pm - 11pm</p>
+              </ListGroupItem>
+            </ListGroup>
+          </Col>
+
+          <Col lg="3" md="4" sm="6">
+            <h5 className="footer__title">Contact</h5>
+            <ListGroup className="delivery__time--list">
+              <ListGroupItem className="delivery__time-item border-0 ps-0">
+                <p> Location: 7233 Marshall rd upper Darby pa 19082</p>
               </ListGroupItem>
               <ListGroupItem className="delivery__time-item border-0 ps-0">
-                <span>Email: nextshop@gmail.com</span>
+                <span>Phone: 6107135841</span>
               </ListGroupItem>
-          </ListGroup>
-        </Col>
+              <ListGroupItem className="delivery__time-item border-0 ps-0">
+                <span>Email: halalkababcurryud73@gmail.com</span>
+              </ListGroupItem>
+            </ListGroup>
+          </Col>
 
-        <Col lg="3" md="4" sm="6">
-          <h5 className="footer__title">Newsletter</h5>
-          <p>Subscribe to our newsletter</p>
-          <form className="newsletter" onSubmit={handleSubmit(submitHandler)}>
-            <input
-                    type="email"
-                    {...register(
-                      'email', { 
-                        required: 'Please enter email',
-                        pattern: {
-                          value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-                          message: 'Please enter  a valid email address'
-                        }
-                      })}
-                    placeholder="Enter your email"
-                    required
-                  />
-                     {
-                    errors.email && (
-                      <div className="text-danger">{errors.email.message}</div>
-                    )
-                  }
-            <button type="submit"><i className="ri-send-plane-line"></i></button>
-          </form>
-        </Col>
+          <Col lg="3" md="4" sm="6">
+            <h5 className="footer__title">Newsletter</h5>
+            <p>Subscribe to our newsletter</p>
+            <form className="newsletter" onSubmit={handleSubmit(submitHandler)}>
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Please enter email",
+                  pattern: {
+                    value:
+                      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                    message: "Please enter  a valid email address",
+                  },
+                })}
+                placeholder="Enter your email"
+                required
+              />
+              {errors.email && (
+                <div className="text-danger">{errors.email.message}</div>
+              )}
+              <button type="submit">
+                <i className="ri-send-plane-line"></i>
+              </button>
+            </form>
+          </Col>
+        </Row>
 
-      </Row>
-
-      <Row className="mt-5">
+        <Row className="mt-5">
           <Col lg="6" md="6">
             <p className="copyright__text">
-              Copyright - 2022, website made by Next Shop. All Rights
-              Reserved.
+              Copyright - 2022, website made by Next Shop. All Rights Reserved.
             </p>
           </Col>
           <Col lg="6" md="6">
@@ -110,35 +115,43 @@ function Footer(props) {
               <span>
                 {" "}
                 <Link href="https://www.facebook.com/" legacyBehavior>
-                  <a><i className="ri-facebook-line"></i></a>
+                  <a>
+                    <i className="ri-facebook-line"></i>
+                  </a>
                 </Link>{" "}
               </span>
 
               <span>
                 <Link href="https://twitter.com/" legacyBehavior>
-                  <a><i className="ri-twitter-line"></i></a>
+                  <a>
+                    <i className="ri-twitter-line"></i>
+                  </a>
                 </Link>
               </span>
 
               <span>
                 {" "}
                 <Link href="https://youtube.com/" legacyBehavior>
-                  <a><i className="ri-youtube-line"></i></a>
+                  <a>
+                    <i className="ri-youtube-line"></i>
+                  </a>
                 </Link>{" "}
               </span>
 
               <span>
                 {" "}
                 <Link href="https://linkedin.com/" legacyBehavior>
-                  <a><i className="ri-linkedin-line"></i></a>
+                  <a>
+                    <i className="ri-linkedin-line"></i>
+                  </a>
                 </Link>{" "}
               </span>
             </div>
           </Col>
         </Row>
-    </Container>
-   </footer>
-  )
+      </Container>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;
