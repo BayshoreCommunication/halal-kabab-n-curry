@@ -180,7 +180,7 @@ function ProductEdit({ params }) {
               <ListGroup>
                 <ListGroupItem
                   action
-                  className="bg-danger text-light "
+                  className="bg-warning text-light "
                   href="/admin/dashboard"
                   tag="a"
                 >
@@ -202,7 +202,7 @@ function ProductEdit({ params }) {
               <ListGroup>
                 <ListGroupItem className="bg__2">
                   {loading && <CircularProgress />}
-                  {error && <div className="text-bg-danger">{error}</div>}
+                  {error && <div className="text-bg-warning">{error}</div>}
                   <h6 className="mb-4">Edit {productId} </h6>
                   <form
                     className="form mb-3"

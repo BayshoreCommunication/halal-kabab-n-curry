@@ -144,7 +144,7 @@ function Products() {
                 <ListGroupItem
                   action
                   href="/admin/products"
-                  className="bg-danger text-light"
+                  className="bg-warning text-light"
                   tag="a"
                 >
                   Products
@@ -168,7 +168,7 @@ function Products() {
                   {loading ? (
                     <CircularProgress />
                   ) : error ? (
-                    <div className="bg-danger">{error}</div>
+                    <div className="bg-warning">{error}</div>
                   ) : (
                     <Table responsive>
                       <thead>
