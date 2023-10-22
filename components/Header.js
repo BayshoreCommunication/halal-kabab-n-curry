@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
-import { Container } from 'reactstrap'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { Store } from '../helpers/Store'
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { Container } from "reactstrap";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Store } from "../helpers/Store";
 import {
   DownOutlined,
   SmileOutlined,
   UserOutlined,
   ShoppingCartOutlined,
-} from '@ant-design/icons'
+} from "@ant-design/icons";
 import {
   Drawer,
   List,
@@ -18,39 +18,39 @@ import {
   Box,
   IconButton,
   ListItemText,
-} from '@material-ui/core'
-import { Dropdown, Space, Menu } from 'antd'
-import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify'
-import { getError } from '../helpers/error'
-import Image from 'next/image'
+} from "@material-ui/core";
+import { Dropdown, Space, Menu } from "antd";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import { getError } from "../helpers/error";
+import Image from "next/image";
 
 const nav__links = [
   {
-    display: 'Home',
-    path: '/',
+    display: "Home",
+    path: "/",
   },
   {
-    display: 'Foods',
-    path: '/shop',
+    display: "Menu",
+    path: "/menu",
   },
   {
-    display: 'Search',
-    path: '/search',
+    display: "Search",
+    path: "/search",
   },
   {
-    display: 'Cart',
-    path: '/cart',
+    display: "Cart",
+    path: "/cart",
   },
   {
-    display: 'Contact',
-    path: '/contact',
+    display: "Contact",
+    path: "/contact",
   },
-]
+];
 
 const items = [
   {
-    key: '1',
+    key: "1",
     label: (
       <a target="_blank" rel="noopener noreferrer" href="/profile">
         Profile
@@ -59,7 +59,7 @@ const items = [
     icon: <UserOutlined />,
   },
   {
-    key: '2',
+    key: "2",
     label: (
       <a target="_blank" rel="noopener noreferrer" href="/order-history">
         Order History
@@ -68,7 +68,7 @@ const items = [
     icon: <SmileOutlined />,
   },
   {
-    key: '3',
+    key: "3",
     label: (
       <a target="_blank" rel="noopener noreferrer" href="/cart">
         My Cart
@@ -76,66 +76,66 @@ const items = [
     ),
     icon: <ShoppingCartOutlined />,
   },
-]
+];
 
 function Header(props) {
-  const router = useRouter()
-  const { state, dispatch } = useContext(Store)
-  const [user, setUser] = useState('')
-  const [userCart, setUserCart] = useState('')
-  const { cart, userInfo } = state
-  const headerRef = useRef(null)
-  const menuRef = useRef(null)
-  const [sidbarVisible, setSidebarVisible] = useState(false)
-  const [categories, setCategories] = useState([])
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
+  const [user, setUser] = useState("");
+  const [userCart, setUserCart] = useState("");
+  const { cart, userInfo } = state;
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
+  const [sidbarVisible, setSidebarVisible] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const sidebarOpenHandler = () => {
-    setSidebarVisible(true)
-  }
+    setSidebarVisible(true);
+  };
   const sidebarCloseHandler = () => {
-    setSidebarVisible(false)
-  }
+    setSidebarVisible(false);
+  };
 
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get(`/api/products/categories`)
-      setCategories(data)
+      const { data } = await axios.get(`/api/products/categories`);
+      setCategories(data);
     } catch (err) {
-      toast.error(`${getError(err)}`)
+      toast.error(`${getError(err)}`);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchCategories()
-  }, [])
+    fetchCategories();
+  }, []);
 
-  const toggleMenu = () => menuRef.current.classList.toggle('show__menu')
+  const toggleMenu = () => menuRef.current.classList.toggle("show__menu");
 
   const headerFunc = () => {
     if (
       document.body.scrollTop > 80 ||
       document.documentElement.scrollTop > 80
     ) {
-      headerRef.current.classList.add('header__shrink')
+      headerRef.current.classList.add("header__shrink");
     } else {
-      headerRef?.current?.classList?.remove('header__shrink')
+      headerRef?.current?.classList?.remove("header__shrink");
     }
-  }
+  };
 
   useEffect(() => {
-    setUser(userInfo)
-  }, [userInfo])
+    setUser(userInfo);
+  }, [userInfo]);
   useEffect(() => {
-    setUserCart(cart)
-  }, [cart])
+    setUserCart(cart);
+  }, [cart]);
 
   useEffect(() => {
-    window.addEventListener('scroll', headerFunc)
+    window.addEventListener("scroll", headerFunc);
 
     return () => {
-      window.removeEventListener('scroll', headerFunc)
-    }
-  }, [])
+      window.removeEventListener("scroll", headerFunc);
+    };
+  }, []);
   return (
     <header className="header" ref={headerRef}>
       <ToastContainer />
@@ -164,7 +164,7 @@ function Header(props) {
             open={sidbarVisible}
             onClose={sidebarCloseHandler}
             className="drawer__left"
-            style={{ zIndex: '9999' }}
+            style={{ zIndex: "9999" }}
           >
             <List>
               <ListItem>
@@ -210,8 +210,8 @@ function Header(props) {
                   <a
                     className={(navClass) =>
                       navClass.isActive
-                        ? 'active__menu text-decoration-none'
-                        : 'text-decoration-none'
+                        ? "active__menu text-decoration-none"
+                        : "text-decoration-none"
                     }
                   >
                     {item.display}
@@ -227,7 +227,7 @@ function Header(props) {
             <span
               className="cart__icon"
               onClick={() => {
-                router.push('/cart')
+                router.push("/cart");
               }}
             >
               <i className="ri-shopping-basket-line"></i>
@@ -252,7 +252,7 @@ function Header(props) {
               <span
                 className="user"
                 onClick={() => {
-                  router.push('/login')
+                  router.push("/login");
                 }}
               >
                 <a className="link__color">
@@ -268,7 +268,7 @@ function Header(props) {
         </div>
       </Container>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
