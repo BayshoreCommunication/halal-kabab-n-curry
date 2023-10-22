@@ -47,7 +47,7 @@ function Footer(props) {
             </div>
           </Col>
 
-          <Col lg="3" md="4" sm="6">
+          <Col lg="2" md="4" sm="6">
             <h5 className="footer__title">Delivery Time</h5>
             <ListGroup>
               <ListGroupItem className="delivery__time-item border-0 ps-0">
@@ -61,11 +61,11 @@ function Footer(props) {
             </ListGroup>
           </Col>
 
-          <Col lg="3" md="4" sm="6">
+          <Col lg="4" md="4" sm="6">
             <h5 className="footer__title">Contact</h5>
             <ListGroup className="delivery__time--list">
               <ListGroupItem className="delivery__time-item border-0 ps-0">
-                <p> Location: 7233 Marshall rd upper Darby pa 19082</p>
+                <span> Location: 7233 Marshall rd upper Darby pa 19082</span>
               </ListGroupItem>
               <ListGroupItem className="delivery__time-item border-0 ps-0">
                 <span>Phone: 6107135841</span>

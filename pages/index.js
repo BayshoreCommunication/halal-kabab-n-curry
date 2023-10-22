@@ -112,7 +112,7 @@ export default function Home(props) {
           <Category />
         </section>
         <Feature />
-        <section>
+        {/* <section>
           <Container>
             <Row>
               <Col lg="12" className="text-center">
@@ -201,7 +201,7 @@ export default function Home(props) {
               )}
             </Row>
           </Container>
-        </section>
+        </section> */}
 
         <section className="mt-0">
           <Container>
