@@ -1,29 +1,29 @@
-import React from 'react'
-import { Container, Col, Row, ListGroup, ListGroupItem } from 'reactstrap'
-import { toast } from 'react-toastify'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
-import Image from 'next/image'
+import React from "react";
+import { Container, Col, Row, ListGroup, ListGroupItem } from "reactstrap";
+import { toast } from "react-toastify";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Image from "next/image";
 
 function Footer(props) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const submitHandler = async ({ email }) => {
     try {
-      console.log(email)
-      const { data } = await axios.post('/api/newsletter', {
+      console.log(email);
+      const { data } = await axios.post("/api/newsletter", {
         email,
-      })
-      toast.success('Successfully Subcribed')
+      });
+      toast.success("Successfully Subcribed");
     } catch (err) {
-      toast.error(`Something went wrong!`)
+      toast.error(`Something went wrong!`);
     }
-  }
+  };
 
   return (
     <footer className="footer">
@@ -31,15 +31,13 @@ function Footer(props) {
         <Row>
           <Col lg="3" md="4" sm="6">
             <div className="footer__logo text-start ">
-              <span className="logo__text mb-3">
-                <Image
-                  src="/images/halal-kabab-logo.svg"
-                  alt="halal-kabab-logo"
-                  height={300}
-                  width={300}
-                  className="halal-kabab-footer-logo"
-                />
-              </span>
+              <Image
+                src="/images/halal-kabab-logo.svg"
+                alt="halal-kabab-logo"
+                height={300}
+                width={300}
+                className="halal-kabab-footer-logo"
+              />
               <div>
                 Lorem ipsum dolor sit amet, consectetur adipiscingmv dmsfdgg
                 mssdg
@@ -82,11 +80,12 @@ function Footer(props) {
             <form className="newsletter" onSubmit={handleSubmit(submitHandler)}>
               <input
                 type="email"
-                {...register('email', {
-                  required: 'Please enter email',
+                {...register("email", {
+                  required: "Please enter email",
                   pattern: {
-                    value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-                    message: 'Please enter  a valid email address',
+                    value:
+                      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                    message: "Please enter  a valid email address",
                   },
                 })}
                 placeholder="Enter your email"
@@ -113,12 +112,12 @@ function Footer(props) {
             <div className="social__links d-flex align-items-center gap-4 justify-content-end">
               <p className="m-0">Follow: </p>
               <span>
-                {' '}
+                {" "}
                 <Link href="https://www.facebook.com/" legacyBehavior>
                   <a>
                     <i className="ri-facebook-line"></i>
                   </a>
-                </Link>{' '}
+                </Link>{" "}
               </span>
 
               <span>
@@ -130,28 +129,28 @@ function Footer(props) {
               </span>
 
               <span>
-                {' '}
+                {" "}
                 <Link href="https://youtube.com/" legacyBehavior>
                   <a>
                     <i className="ri-youtube-line"></i>
                   </a>
-                </Link>{' '}
+                </Link>{" "}
               </span>
 
               <span>
-                {' '}
+                {" "}
                 <Link href="https://linkedin.com/" legacyBehavior>
                   <a>
                     <i className="ri-linkedin-line"></i>
                   </a>
-                </Link>{' '}
+                </Link>{" "}
               </span>
             </div>
           </Col>
         </Row>
       </Container>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

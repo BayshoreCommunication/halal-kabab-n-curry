@@ -146,15 +146,13 @@ function Header(props) {
               <span className="menu__btn" onClick={sidebarOpenHandler}>
                 <i className="ri-menu-line"></i>
               </span>
-              <span className="logo__text">
-                <Image
-                  src="/images/halal-kabab-logo.svg"
-                  alt="halal-kabab-logo"
-                  className="halal-logo"
-                  height={300}
-                  width={300}
-                />
-              </span>
+              <Image
+                src="/images/halal-kabab-logo.svg"
+                alt="halal-kabab-logo"
+                className="halal-logo"
+                height={300}
+                width={300}
+              />
             </div>
           </div>
 

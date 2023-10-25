@@ -22,6 +22,7 @@ import { Store } from "../helpers/Store";
 import ProductCard from "../components/UI/ProductCard";
 import Rating from "@material-ui/lab/Rating";
 import { Pagination } from "@material-ui/lab";
+import CommonSection from "../components/UI/CommonSection";
 
 const PAGE_SIZE = 6;
 
@@ -153,6 +154,7 @@ export default function search(props) {
       </Head>
       <main>
         <ToastContainer />
+        <CommonSection title="Search Items" />
         <section>
           <Container>
             <Grid container spacing={1}>
@@ -262,20 +264,15 @@ export default function search(props) {
                   </Grid>
                 </Grid>
 
-                <Grid
-                  container
-                  className="mt-1 d-flex justify-content-center"
-                  spacing={3}
-                >
-                  {products.map((item) => (
-                    <Grid item md={4} key={item.name}>
-                      <ProductCard
-                        item={item}
-                        click={() => addToCartHandler(item)}
-                      />
-                    </Grid>
+                <div className="product-card-grid mt-3">
+                  {products.map((item, index) => (
+                    <ProductCard
+                      item={item}
+                      key={index}
+                      click={() => addToCartHandler(item)}
+                    />
                   ))}
-                </Grid>
+                </div>
 
                 <Pagination
                   className="mt-3"
