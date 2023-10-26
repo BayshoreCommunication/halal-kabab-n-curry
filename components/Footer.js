@@ -109,7 +109,7 @@ function Footer(props) {
             </p>
           </Col>
           <Col lg="6" md="6">
-            <div className="social__links d-flex align-items-center gap-4 justify-content-end">
+            <div className="social__links d-flex align-items-center gap-4">
               <p className="m-0">Follow: </p>
               <span>
                 {" "}

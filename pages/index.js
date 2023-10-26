@@ -203,24 +203,19 @@ export default function Home(props) {
           </Container>
         </section> */}
 
-        <section className="mt-0">
-          <Container>
-            <Row>
-              <Col lg="12" className="text-center mb-3">
-                <h2>Halal kabab</h2>
-              </Col>
+        <Container>
+          <Row>
+            <Col lg="12" className="text-center">
+              <h2>Halal kabab</h2>
+            </Col>
 
-              {hotPizza.map((item) => (
-                <Col lg="3" md="4" sm="6" xs="6" key={item.id}>
-                  <ProductCard
-                    item={item}
-                    click={() => addToCartHandler(item)}
-                  />
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        </section>
+            {hotPizza.map((item) => (
+              <Col lg="3" md="4" sm="6" xs="6" key={item.id}>
+                <ProductCard item={item} click={() => addToCartHandler(item)} />
+              </Col>
+            ))}
+          </Row>
+        </Container>
         <WhyChooseUs />
         {/* <Testimonial /> */}
       </main>

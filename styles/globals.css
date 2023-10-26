@@ -537,8 +537,8 @@ a {
 @media only screen and (max-width: 576px) {
   .hero__img {
     width: 100%;
+    height: auto;
     margin: auto;
-    margin-top: 50px;
   }
 }
 
@@ -594,11 +594,14 @@ a {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  position: relative;
 }
 .newsletter input {
   background: transparent;
   border: none;
   outline: none;
+  height: 30px;
+  width: 73%;
 }
 
 .newsletter input:focus {
@@ -610,10 +613,15 @@ a {
   padding: 5px 30px;
   border-radius: 5px;
   border: none;
+  position: absolute;
+  right: 5px;
+  width: 25%;
 }
 
 .newsletter button i {
   color: #fff;
+  display: flex;
+  justify-content: center;
 }
 
 .newsletter input::placeholder {
@@ -634,6 +642,10 @@ a {
 .copyright__text {
   font-size: 0.8rem;
   color: #f8b60d;
+}
+
+.social__links {
+  justify-content: flex-end !important;
 }
 
 @media only screen and (max-width: 992px) {
@@ -660,6 +672,9 @@ a {
     font-size: 0.7rem;
     margin-bottom: 0;
   }
+  .social__links {
+    justify-content: center !important;
+  }
 }
 
 @media only screen and (max-width: 576px) {
@@ -676,6 +691,9 @@ a {
   }
   .social__links span a {
     font-size: 0.7rem;
+  }
+  .social__links {
+    justify-content: center !important;
   }
 }
 
