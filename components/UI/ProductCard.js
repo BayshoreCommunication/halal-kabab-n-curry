@@ -9,14 +9,14 @@ const ProductCard = (props) => {
     <div className="product__item">
       <Image src={`${image}`} height={180} width={180} alt="product-img" />
       <div className="product__content">
+        <Rating value={rating} style={{ color: "#df2020" }} readOnly></Rating>
         <h5>
           <Link href={`/product/${slug}`}>{name}</Link>
         </h5>
-        <label className="product__price">${price}</label>
-        <Rating value={rating} style={{ color: "#df2020" }} readOnly></Rating>
         <button className="addTOCart__btn" onClick={props.click}>
           Add to Cart
         </button>
+        <label className="product__price">${price}</label>
       </div>
     </div>
   );
