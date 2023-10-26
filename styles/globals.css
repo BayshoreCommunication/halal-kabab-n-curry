@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap');
 /* google fonts */
 
-@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
 /* reset default style */
 
 * {
@@ -20,7 +20,7 @@ body {
   padding: 0;
   margin: 0;
   background: #fcfcfc;
-  font-family: "Istok Web", sans-serif;
+  font-family: 'Istok Web', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.7px;
@@ -32,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "RocknRoll One", sans-serif !important;
+  font-family: 'RocknRoll One', sans-serif !important;
 }
 
 a {
@@ -166,7 +166,7 @@ a {
   font-weight: bold;
   color: #f8b60d;
   font-size: 25px;
-  font-family: "Pacifico";
+  font-family: 'Pacifico';
   margin-left: 20px;
   margin-bottom: 3px;
 }
@@ -879,7 +879,7 @@ a {
 }
 
 .product__item img {
-  max-width: 100%;
+  max-width: 40%;
   height: auto;
 }
 
@@ -906,7 +906,7 @@ a {
 
 .addTOCart__btn {
   border: 0px;
-  font: 14px "Roboto", sans-serif;
+  font: 14px 'Roboto', sans-serif;
   display: inline-block;
   padding: 5px 15px;
   text-align: center;
@@ -1124,6 +1124,9 @@ a {
   }
   .why__choose-us {
     padding-top: 0 !important;
+  }
+  .menu-sidebar .btn-group__item {
+    font-size: 12px;
   }
 }
 
@@ -1593,7 +1596,7 @@ a {
   margin: auto;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
 
 .popup .content {
   position: absolute;
@@ -1759,6 +1762,7 @@ h1 {
   border: none;
   text-align: left;
   text-transform: capitalize;
+  font-weight: 600;
   transition: 0.5s ease-in-out;
 }
 
@@ -1785,4 +1789,10 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
+}
+
+@media only screen and (max-width: 991px) {
+  .product-card-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
