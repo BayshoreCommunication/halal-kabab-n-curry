@@ -1,12 +1,12 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { Container, Col, Row } from 'reactstrap'
-import HeroImg from '../../public/images/hero.png'
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { Container, Col, Row } from "reactstrap";
+import HeroImg from "../../public/images/hero.png";
 
 function Hero() {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <section>
       <Container>
@@ -29,7 +29,7 @@ function Hero() {
               <div className="hero__btns d-flex align-items-center gap-5 mt-4">
                 <button
                   onClick={() => {
-                    router.push('/search')
+                    router.push("/search");
                   }}
                   className="order__btn d-flex justify-content-beetween align-items-center"
                 >
@@ -47,13 +47,13 @@ function Hero() {
                 <p className="d-flex align-items-center gap-2">
                   <span className="shipping__icon">
                     <i className="ri-car-line"></i>
-                  </span>{' '}
+                  </span>{" "}
                   No shipping charge
                 </p>
                 <p className="d-flex align-items-center gap-2">
                   <span className="shipping__icon">
                     <i className="ri-shield-check-line"></i>
-                  </span>{' '}
+                  </span>{" "}
                   100 % secure
                 </p>
               </div>
@@ -72,7 +72,7 @@ function Hero() {
         </Row>
       </Container>
     </section>
-  )
+  );
 }
 
-export default Hero
+export default Hero;

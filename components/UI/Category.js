@@ -1,29 +1,25 @@
-import React from 'react'
-import { Container, Col, Row } from 'reactstrap'
-import Image from 'next/image'
-import categoryImg01 from '../../public/images/category-01.png'
-import categoryImg02 from '../../public/images/category-02.png'
-import categoryImg03 from '../../public/images/category-03.png'
-import categoryImg04 from '../../public/images/category-04.png'
+import React from "react";
+import { Container, Col, Row } from "reactstrap";
+import Image from "next/image";
 
 const categoryData = [
   {
-    display: 'FastFood',
-    imgUrl: categoryImg01,
+    display: "Kabab",
+    imgUrl: "https://cdn-icons-png.flaticon.com/128/2362/2362337.png",
   },
   {
-    display: 'Kabab',
-    imgUrl: categoryImg02,
+    display: "Sea Food",
+    imgUrl: "https://cdn-icons-png.flaticon.com/128/3071/3071050.png",
   },
   {
-    display: 'Indian Food',
-    imgUrl: categoryImg03,
+    display: "Indian Food",
+    imgUrl: "https://cdn-icons-png.flaticon.com/128/3092/3092692.png",
   },
   {
-    display: 'Row Meat',
-    imgUrl: categoryImg04,
+    display: "Dessert Fantacy",
+    imgUrl: "https://cdn-icons-png.flaticon.com/128/2871/2871916.png",
   },
-]
+];
 
 const Category = () => {
   return (
@@ -46,7 +42,7 @@ const Category = () => {
         ))}
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

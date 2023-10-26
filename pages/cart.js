@@ -69,7 +69,7 @@ function Cart() {
             <Row>
               <Col lg="12">
                 {cartItems.length === 0 ? (
-                  <h5 className="text-center">
+                  <h5 className="text-center m-5">
                     Your cart is empty.{" "}
                     <Link href="/menu" legacyBehavior>
                       <a>Go shopping </a>

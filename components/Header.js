@@ -19,7 +19,7 @@ import {
   IconButton,
   ListItemText,
 } from "@material-ui/core";
-import { Dropdown, Space, Menu } from "antd";
+import { Dropdown, Space } from "antd";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { getError } from "../helpers/error";
@@ -78,7 +78,7 @@ const items = [
   },
 ];
 
-function Header(props) {
+function Header() {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const [user, setUser] = useState("");
@@ -136,6 +136,7 @@ function Header(props) {
       window.removeEventListener("scroll", headerFunc);
     };
   }, []);
+
   return (
     <header className="header" ref={headerRef}>
       <ToastContainer />
@@ -206,11 +207,9 @@ function Header(props) {
               {nav__links.map((item, index) => (
                 <Link href={item.path} key={index} legacyBehavior>
                   <a
-                    className={(navClass) =>
-                      navClass.isActive
-                        ? "active__menu text-decoration-none"
-                        : "text-decoration-none"
-                    }
+                    className={`${
+                      router.pathname === item.path && "active__menu"
+                    }`}
                   >
                     {item.display}
                   </a>
@@ -258,7 +257,6 @@ function Header(props) {
                 </a>
               </span>
             )}
-
             <span className="mobile__menu" onClick={toggleMenu}>
               <i className="ri-menu-line"></i>
             </span>

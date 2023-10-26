@@ -204,6 +204,7 @@ a {
 .menu a:hover {
   color: #f8b60d;
 }
+
 .active__menu {
   color: #f8b60d !important;
 }
@@ -1764,6 +1765,10 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
+}
+.MuiListItemText-primary {
+  text-transform: capitalize;
+  color: #f8b60d;
 }
 
 @media only screen and (max-width: 991px) {
