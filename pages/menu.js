@@ -73,7 +73,7 @@ const Menu = ({ products }) => {
       <CommonSection title="Menu" />
       <Container className="my-5">
         <Row>
-          <Col xs="3" sm="3" lg="2">
+          <Col xs="4" sm="3" lg="2">
             <div className="menu-sidebar">
               {/* if "all items" is set to category then All Items button should be active otherwise it should active depending on category name */}
               {menuList
@@ -91,7 +91,7 @@ const Menu = ({ products }) => {
                 .reverse()}
             </div>
           </Col>
-          <Col xs="9" sm="9" lg="10">
+          <Col xs="8" sm="9" lg="10">
             {!filteredProducts && filteredProducts === undefined ? (
               <Loader />
             ) : (

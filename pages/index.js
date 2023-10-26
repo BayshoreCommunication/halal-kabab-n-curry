@@ -207,7 +207,7 @@ export default function Home(props) {
           <Container>
             <Row>
               <Col lg="12" className="text-center mb-3">
-                <h2>Hot Pizza</h2>
+                <h2>Halal kabab</h2>
               </Col>
 
               {hotPizza.map((item) => (
