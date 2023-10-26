@@ -756,7 +756,7 @@ a {
 /** FOODS CATEGORIES **/
 
 .category__item {
-  background: #fde4e4;
+  background: #fff7e2;
   padding: 30px 20px;
   border-radius: 5px;
   cursor: pointer;
@@ -767,6 +767,11 @@ a {
   transform: translateY(-15px);
 }
 
+.category__img img {
+  /* image should be grayscale */
+  filter: grayscale(100%);
+}
+
 @media only screen and (max-width: 768px) {
   .category__item {
     padding: 20px 15px;
@@ -775,7 +780,6 @@ a {
     width: 40px;
     height: 40px;
   }
-
   .category__item h6 {
     font-size: 0.8rem;
   }
