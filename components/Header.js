@@ -144,15 +144,19 @@ function Header() {
         <div className="nav__wrapper d-flex align-items-center justify-content-between">
           <div className="logo">
             <div className="d-flex align-items-center justify-content-between">
-              <span className="menu__btn" onClick={sidebarOpenHandler}>
+              {/* <span className="menu__btn" onClick={sidebarOpenHandler}>
                 <i className="ri-menu-line"></i>
-              </span>
+              </span> */}
               <Image
                 src="/images/halal-kabab-logo.svg"
                 alt="halal-kabab-logo"
                 className="halal-logo"
                 height={300}
                 width={300}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  router.push("/");
+                }}
               />
             </div>
           </div>

@@ -791,7 +791,13 @@ a {
   padding: 30px 20px;
   border-radius: 5px;
   cursor: pointer;
+  color: #000;
   transition: 0.4s;
+}
+.category__item h6 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0px;
 }
 
 .category__item:hover {

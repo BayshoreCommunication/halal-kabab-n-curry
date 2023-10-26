@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Col, Row } from "reactstrap";
 import Image from "next/image";
+import Link from "next/link";
 
 const categoryData = [
   {
@@ -26,8 +27,11 @@ const Category = () => {
     <Container>
       <Row>
         {categoryData.map((item, index) => (
-          <Col lg="3" md="4" sm="6" xs="6" className="mb-3">
-            <div className="category__item d-flex align-items-center gap-3">
+          <Col lg="3" md="4" sm="6" xs="6" className="mb-3" key={index}>
+            <Link
+              href={"/search?category=sample+category"}
+              className="category__item d-flex align-items-center gap-3 justify-content-center"
+            >
               <div className="category__img">
                 <Image
                   src={item.imgUrl}
@@ -37,7 +41,7 @@ const Category = () => {
                 />
               </div>
               <h6>{item.display}</h6>
-            </div>
+            </Link>
           </Col>
         ))}
       </Row>

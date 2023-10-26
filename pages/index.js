@@ -1,20 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Container, Row, Col } from "reactstrap";
 import Category from "../components/UI/Category.js";
 import ProductCard from "../components/UI/ProductCard.js";
-import Loader from "../components/Loader";
-
-import foodCategoryImg01 from "../public/images/hamburger.png";
-import foodCategoryImg02 from "../public/images/pizza.png";
-import foodCategoryImg03 from "../public/images/bread.png";
-
 import Hero from "../components/UI/Hero";
 import Feature from "../components/UI/Feature";
 import WhyChooseUs from "../components/UI/WhyChooseUs";
-import Testimonial from "../components/UI/Testimonial";
 import db from "../helpers/db";
 import Product from "../models/Product";
 import axios from "axios";
@@ -112,97 +104,6 @@ export default function Home(props) {
           <Category />
         </section>
         <Feature />
-        {/* <section>
-          <Container>
-            <Row>
-              <Col lg="12" className="text-center">
-                <h2>Popular Foods</h2>
-              </Col>
-
-              <Col lg="12">
-                <div className="food__category d-flex align-items-center justify-content-center gap-4">
-                  <button
-                    className={`all__btns ${
-                      category == 'ALL' ? 'foodBtnActive' : ''
-                    } `}
-                    onClick={() => setCategory('ALL')}
-                  >
-                    All
-                  </button>
-                  <button
-                    className={`d-flex align-items-center gap-2  ${
-                      category == 'BURGER' ? 'foodBtnActive' : ''
-                    } `}
-                    onClick={() => setCategory('BURGER')}
-                  >
-                    <div className="foodCategoryImg">
-                      <Image
-                        src={foodCategoryImg01}
-                        height={20}
-                        width={20}
-                        alt="Category Image 1"
-                      />
-                    </div>
-                    Burger
-                  </button>
-                  <button
-                    className={`d-flex align-items-center gap-2  ${
-                      category == 'PIZZA' ? 'foodBtnActive' : ''
-                    } `}
-                    onClick={() => setCategory('PIZZA')}
-                  >
-                    <div className="foodCategoryImg">
-                      <Image
-                        src={foodCategoryImg02}
-                        height={20}
-                        width={20}
-                        alt="Category Image 2"
-                      />
-                    </div>
-                    Pizza
-                  </button>
-                  <button
-                    className={`d-flex align-items-center gap-2 ${
-                      category == 'BREAD' ? 'foodBtnActive' : ''
-                    } `}
-                    onClick={() => setCategory('BREAD')}
-                  >
-                    <div className="foodCategoryImg">
-                      <Image
-                        src={foodCategoryImg03}
-                        height={20}
-                        width={20}
-                        alt="Category Image 3"
-                      />
-                    </div>
-                    Bread
-                  </button>
-                </div>
-              </Col>
-
-              {!allProducts && allProducts == undefined ? (
-                <Loader />
-              ) : (
-                allProducts.map((item) => (
-                  <Col
-                    lg="3"
-                    md="4"
-                    sm="6"
-                    xs="6"
-                    key={item.id}
-                    className="mt-5"
-                  >
-                    <ProductCard
-                      item={item}
-                      click={() => addToCartHandler(item)}
-                    />
-                  </Col>
-                ))
-              )}
-            </Row>
-          </Container>
-        </section> */}
-
         <Container>
           <Row>
             <Col lg="12" className="text-center">
@@ -217,7 +118,6 @@ export default function Home(props) {
           </Row>
         </Container>
         <WhyChooseUs />
-        {/* <Testimonial /> */}
       </main>
     </div>
   );
