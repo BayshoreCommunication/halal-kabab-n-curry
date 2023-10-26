@@ -264,7 +264,7 @@ export default function search(props) {
                   </Grid>
                 </Grid>
 
-                <div className="product-card-grid mt-3">
+                <div className="product-card-grid-search mt-3">
                   {products.map((item, index) => (
                     <ProductCard
                       item={item}

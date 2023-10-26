@@ -374,17 +374,15 @@ a {
 
 .spinner {
   position: absolute;
-  top: 40%; /* position the top  edge of the element at the middle of the parent */
-  left: 40%; /* position the left edge of the element at the middle of the parent */
-  /* 
-  transform: translate(-50%, -50%) !important; */
-  margin: -80px 0 0 -80px;
+  top: 50%; /* position the top  edge of the element at the middle of the parent */
+  left: 50%; /* position the left edge of the element at the middle of the parent */
+  transform: translate(-50%, -50%) !important;
   width: 160px;
   height: 160px;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  animation: spin 12s linear infinite;
+  animation: spin 20s linear infinite;
 }
 
 .pizza-part {
@@ -646,6 +644,20 @@ a {
 
 .social__links {
   justify-content: flex-end !important;
+}
+
+.menu.d-flex {
+  /* make an animation using keyframes for this side bar right to left */
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @media only screen and (max-width: 992px) {
@@ -1784,6 +1796,11 @@ h1 {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
 }
+.product-card-grid-search {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
 .MuiListItemText-primary {
   text-transform: capitalize;
   color: #f8b60d;
@@ -1807,6 +1824,23 @@ h1 {
   }
   .halal-logo {
     height: 3.5rem;
+  }
+  .spinner {
+    width: 80px;
+    height: 80px;
+  }
+  .pizza-part {
+    width: 40px;
+    height: 40px;
+  }
+  .product-card-grid-search {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    grid-template-columns: none;
+  }
+  .product-card-grid-search .product__item {
+    width: 100%;
   }
 }
 @media only screen and (max-width: 576px) {
