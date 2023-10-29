@@ -1,56 +1,57 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { Store } from "../helpers/Store";
-import Cookies from "js-cookie";
-import { Container, Col, Row } from "reactstrap";
-import CommonSection from "../components/UI/CommonSection";
-import { toast, ToastContainer } from "react-toastify";
+import React, { useState, useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import { Store } from '../helpers/Store'
+import Cookies from 'js-cookie'
+import { Container, Col, Row } from 'reactstrap'
+import CommonSection from '../components/UI/CommonSection'
+import { toast, ToastContainer } from 'react-toastify'
 import {
   RadioGroup,
   FormControl,
   FormControlLabel,
   Radio,
-} from "@material-ui/core";
-import CheckWizard from "../components/CheckWizard";
+} from '@material-ui/core'
+import CheckWizard from '../components/CheckWizard'
 
 function Payment() {
-  const router = useRouter();
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const { state, dispatch } = useContext(Store);
-  const [value, setValue] = useState("Paypal");
+  const router = useRouter()
+  const [paymentMethod, setPaymentMethod] = useState('')
+  const { state, dispatch } = useContext(Store)
+  const [value, setValue] = useState('Paypal')
   const {
     cart: { shippingAddress },
-  } = state;
+  } = state
   useEffect(() => {
     if (!shippingAddress.address) {
-      router.push("/shipping");
+      router.push('/shipping')
     } else {
-      setPaymentMethod(Cookies.get("paymentMethod") || " ");
+      setPaymentMethod(Cookies.get('paymentMethod') || ' ')
     }
-  }, []);
+  }, [])
 
   const submitHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!paymentMethod) {
-      toast.error("Payment Method is required");
+      toast.error('Payment Method is required')
     } else {
-      dispatch({ type: "SAVE_PAYMENT_METHOD", payload: paymentMethod });
-      Cookies.set("paymentMethod", paymentMethod);
-      router.push("/placeorder");
+      dispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethod })
+      Cookies.set('paymentMethod', paymentMethod)
+      router.push('/placeorder')
     }
-  };
+  }
 
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setPaymentMethod(e.target.value);
-    setValue(e.target.value);
-  };
+    console.log('radio checked', e.target.value)
+    setPaymentMethod(e.target.value)
+    setValue(e.target.value)
+  }
   return (
     <>
       <Head>
         <title>
-          Delivera | Payment | Food Delivery and Takeout | Order Online
+          Halal Kabab & Curry | Payment | Food Delivery and Takeout | Order
+          Online
         </title>
         <meta
           name="description"
@@ -113,7 +114,7 @@ function Payment() {
                 <button
                   type="button"
                   className="addTOCart__btn bg-secondary"
-                  onClick={() => router.push("/shipping")}
+                  onClick={() => router.push('/shipping')}
                 >
                   Back
                 </button>
@@ -123,7 +124,7 @@ function Payment() {
         </Container>
       </section>
     </>
-  );
+  )
 }
 
-export default Payment;
+export default Payment

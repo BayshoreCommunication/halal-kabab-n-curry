@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import Head from "next/head";
-import { Container, Row, Col } from "reactstrap";
-import { toast, ToastContainer } from "react-toastify";
-import CommonSection from "../components/UI/CommonSection";
-import SiteMap from "../components/SiteMap";
+import React, { useState } from 'react'
+import Head from 'next/head'
+import { Container, Row, Col } from 'reactstrap'
+import { toast, ToastContainer } from 'react-toastify'
+import CommonSection from '../components/UI/CommonSection'
+import SiteMap from '../components/SiteMap'
 
 export default function Contact() {
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [fullname, setFullname] = useState('')
+  const [email, setEmail] = useState('')
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const res = await fetch("/api/sendgrid", {
+    const res = await fetch('/api/sendgrid', {
       body: JSON.stringify({
         email: email,
         fullname: fullname,
@@ -22,37 +22,38 @@ export default function Contact() {
         message: message,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      method: "POST",
-    });
+      method: 'POST',
+    })
 
-    const { error } = await res.json();
+    const { error } = await res.json()
     if (error) {
-      console.log(error);
-      toast.error("Something went wrong !");
+      console.log(error)
+      toast.error('Something went wrong !')
 
       // Reset form fields
-      setFullname("");
-      setEmail("");
-      setMessage("");
-      setSubject("");
-      return;
+      setFullname('')
+      setEmail('')
+      setMessage('')
+      setSubject('')
+      return
     }
 
-    toast.success("Message successfully sent !");
+    toast.success('Message successfully sent !')
     // Reset form fields
-    setFullname("");
-    setEmail("");
-    setMessage("");
-    setSubject("");
-    console.log(fullname, email, subject, message);
-  };
+    setFullname('')
+    setEmail('')
+    setMessage('')
+    setSubject('')
+    console.log(fullname, email, subject, message)
+  }
   return (
     <>
       <Head>
         <title>
-          Delivera | Contact | Food Delivery and Takeout | Order Online
+          Halal Kabab & Curry | Contact | Food Delivery and Takeout | Order
+          Online
         </title>
         <meta
           name="description"
@@ -97,7 +98,7 @@ export default function Contact() {
                       type="text"
                       value={fullname}
                       onChange={(e) => {
-                        setFullname(e.target.value);
+                        setFullname(e.target.value)
                       }}
                       placeholder="Enter your fullname"
                     />
@@ -107,7 +108,7 @@ export default function Contact() {
                       type="email"
                       value={email}
                       onChange={(e) => {
-                        setEmail(e.target.value);
+                        setEmail(e.target.value)
                       }}
                       placeholder="Enter your email"
                     />
@@ -117,7 +118,7 @@ export default function Contact() {
                       type="text"
                       value={subject}
                       onChange={(e) => {
-                        setSubject(e.target.value);
+                        setSubject(e.target.value)
                       }}
                       placeholder="Enter subject"
                     />
@@ -128,7 +129,7 @@ export default function Contact() {
                       name="message"
                       value={message}
                       onChange={(e) => {
-                        setMessage(e.target.value);
+                        setMessage(e.target.value)
                       }}
                       placeholder="Write message"
                     ></textarea>
@@ -137,10 +138,10 @@ export default function Contact() {
                     type="submit"
                     className="send__btn"
                     style={{
-                      border: "none",
-                      padding: "7px 25px",
-                      borderRadius: "5px",
-                      marginTop: "20px",
+                      border: 'none',
+                      padding: '7px 25px',
+                      borderRadius: '5px',
+                      marginTop: '20px',
                     }}
                   >
                     Send a Message
@@ -153,5 +154,5 @@ export default function Contact() {
         <SiteMap />
       </section>
     </>
-  );
+  )
 }

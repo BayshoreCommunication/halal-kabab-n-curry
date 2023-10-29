@@ -61,7 +61,8 @@ function OrderHistory() {
     <>
       <Head>
         <title>
-          Delivera | Order History | Food Delivery and Takeout | Order Online
+          Halal Kabab & Curry | Order History | Food Delivery and Takeout |
+          Order Online
         </title>
         <meta
           name="description"

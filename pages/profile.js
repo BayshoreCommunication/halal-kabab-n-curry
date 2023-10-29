@@ -63,7 +63,8 @@ function Profile() {
     <>
       <Head>
         <title>
-          Delivera | Profile | Food Delivery and Takeout | Order Online
+          Halal Kabab & Curry | Profile | Food Delivery and Takeout | Order
+          Online
         </title>
         <meta
           name="description"
