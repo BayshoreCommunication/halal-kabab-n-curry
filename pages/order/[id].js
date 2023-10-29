@@ -262,7 +262,7 @@ function Order({ params }) {
                       <tbody>
                         {orderItems.map((item) => (
                           <tr>
-                            <td className="text-center cart__img-box">
+                            <td className="cart__img-box">
                               <div className="w-50">
                                 <Image
                                   width={50}
@@ -272,10 +272,10 @@ function Order({ params }) {
                                 />
                               </div>
                             </td>
-                            <td className="text-center">{item.name}</td>
-                            <td className="text-center">${item.price}</td>
+                            <td className="">{item.name}</td>
+                            <td className="">${item.price}</td>
                             {/* <td className="text-center">{item.quantity}px</td> */}
-                            <td className="text-center">{item.quantity}px</td>
+                            <td className="">{item.quantity}px</td>
                           </tr>
                         ))}
                       </tbody>
