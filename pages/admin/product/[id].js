@@ -192,6 +192,9 @@ function ProductEdit({ params }) {
                 <ListGroupItem action href="/admin/products" tag="a">
                   Products
                 </ListGroupItem>
+                <ListGroupItem action href="/admin/modifiers" tag="a">
+                  Modifiers
+                </ListGroupItem>
                 <ListGroupItem action href="/admin/users" tag="a">
                   Users
                 </ListGroupItem>
@@ -200,7 +203,7 @@ function ProductEdit({ params }) {
 
             <Col lg="9" md="6">
               <ListGroup>
-                <ListGroupItem className="bg__2">
+                <ListGroupItem className="">
                   {loading && <CircularProgress />}
                   {error && <div className="text-bg-warning">{error}</div>}
                   <h6 className="mb-4">Edit {productId} </h6>

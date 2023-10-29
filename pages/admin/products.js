@@ -149,6 +149,9 @@ function Products() {
                 >
                   Products
                 </ListGroupItem>
+                <ListGroupItem action href="/admin/modifiers" tag="a">
+                  Modifiers
+                </ListGroupItem>
                 <ListGroupItem action href="/admin/users" tag="a">
                   Users
                 </ListGroupItem>

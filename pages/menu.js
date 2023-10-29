@@ -9,6 +9,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import CommonSection from '../components/UI/CommonSection'
 import Slider from 'react-slick'
+import Head from 'next/head'
 
 export async function getServerSideProps() {
   await db.connect()
@@ -75,6 +76,32 @@ const Menu = ({ products }) => {
   }
   return (
     <>
+      <Head>
+        <title>Halal Kabab & Curry | Food Delivery and Takeout | Menu</title>
+        <meta
+          name="description"
+          content="We deliver your takeouts or essential groceries from the best-rated local partners straight to your door. Download our app or order online. Food. We Get It."
+        />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+      </Head>
       <ToastContainer />
       <CommonSection title="Menu" />
       <Container className="my-5">

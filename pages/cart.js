@@ -41,6 +41,7 @@ function Cart() {
         <title>Create Next App</title>
         <meta name="description" content="Your Current Cart" />
         <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
         <link
           rel="apple-touch-icon"
           sizes="180x180"

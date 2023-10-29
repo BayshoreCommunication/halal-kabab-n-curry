@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap');
 /* google fonts */
 
-@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
 /* reset default style */
 
 * {
@@ -20,7 +20,7 @@ body {
   padding: 0;
   margin: 0;
   background: #fcfcfc;
-  font-family: "Istok Web", sans-serif;
+  font-family: 'Istok Web', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.7px;
@@ -32,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "RocknRoll One", sans-serif !important;
+  font-family: 'RocknRoll One', sans-serif !important;
 }
 
 a {
@@ -64,7 +64,7 @@ section {
 }
 
 .bg__2 {
-  background-color: #fde4e4 !important;
+  background-color: #fff4d6 !important;
 }
 
 .btn__2 {
@@ -166,7 +166,7 @@ a {
   font-weight: bold;
   color: #f8b60d;
   font-size: 25px;
-  font-family: "Pacifico";
+  font-family: 'Pacifico';
   margin-left: 20px;
   margin-bottom: 3px;
 }
@@ -248,7 +248,7 @@ a {
   left: 0;
   background: #fff;
   z-index: 99999;
-  box-shadow: 5px 5px 15px -5px #fde4e4;
+  box-shadow: 5px 5px 15px -5px #fff4d6;
 }
 
 @media only screen and (max-width: 992px) {
@@ -545,7 +545,7 @@ a {
 .footer {
   padding-top: 50px;
   padding-bottom: 30px;
-  background: #fde4e4;
+  /* background: #fff4d6; */
 }
 
 .footer__logo .footer__image {
@@ -887,7 +887,7 @@ a {
 /*** PRODUCT CARD STYLES ****/
 
 .product__item {
-  border: 1px solid #fde4e4;
+  border: 1px solid #fff4d6;
   text-align: center;
   padding: 10px 20px;
   cursor: pointer;
@@ -900,7 +900,7 @@ a {
 
 .product__item:hover {
   transform: scale(1.01);
-  box-shadow: 10px 10px 15px -5px #fde4e4;
+  box-shadow: 10px 10px 15px -5px #fff4d6;
 }
 
 .product__item img {
@@ -1181,7 +1181,7 @@ a {
 }
 
 .increase__decrease-btn {
-  background: #fde4e4;
+  /* background: #fff4d6; */
   padding: 2px 5px;
   border-radius: 5px;
 }
@@ -1198,7 +1198,7 @@ a {
 
 .cart__item {
   margin-bottom: 15px;
-  border-bottom: 1px solid #fde4e4;
+  border-bottom: 1px solid #fff4d6;
 }
 
 @media only screen and (max-width: 576px) {
@@ -1297,7 +1297,7 @@ a {
 .search__widget,
 .sorting__widget select {
   padding: 7px 15px;
-  border: 1px solid #fde4e4;
+  border: 1px solid #fff4d6;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -1390,13 +1390,13 @@ a {
 
 .category span {
   padding: 5px 10px;
-  background: #fde4e4;
+  /* background: #fff4d6; */
   color: #212245;
   border-radius: 5px;
 }
 
 .tabs {
-  border-bottom: 1px solid #fde4e4;
+  border-bottom: 1px solid #fff4d6;
 }
 
 .tabs h6 {
@@ -1419,7 +1419,7 @@ a {
 .form {
   width: 60%;
   margin: auto;
-  background: #fde4e4;
+  /* background: #fff4d6; */
   padding: 20px;
   border-radius: 5px;
 }
@@ -1582,7 +1582,7 @@ a {
 /*** STYLING CHECKOUT PAGES ***/
 
 .checkout__bill {
-  background: #fde4e4;
+  /* background: #fff4d6; */
   padding: 30px;
 }
 
@@ -1604,7 +1604,7 @@ a {
   margin: auto;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
 
 .popup .content {
   position: absolute;
