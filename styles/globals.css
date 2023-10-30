@@ -247,7 +247,7 @@ a {
   top: 0;
   left: 0;
   background: #fff;
-  z-index: 99999;
+  z-index: 99;
   box-shadow: 5px 5px 15px -5px #fff4d6;
 }
 
@@ -545,7 +545,7 @@ a {
 .footer {
   padding-top: 50px;
   padding-bottom: 30px;
-  /* background: #fff4d6; */
+  background: #fff4d6;
 }
 
 .footer__logo .footer__image {
@@ -1181,7 +1181,7 @@ a {
 }
 
 .increase__decrease-btn {
-  /* background: #fff4d6; */
+  background: #fff4d6;
   padding: 2px 5px;
   border-radius: 5px;
 }
@@ -1390,7 +1390,7 @@ a {
 
 .category span {
   padding: 5px 10px;
-  /* background: #fff4d6; */
+  background: #fff4d6;
   color: #212245;
   border-radius: 5px;
 }
@@ -1419,7 +1419,7 @@ a {
 .form {
   width: 60%;
   margin: auto;
-  /* background: #fff4d6; */
+  background: #fff4d6;
   padding: 20px;
   border-radius: 5px;
 }
@@ -1582,7 +1582,7 @@ a {
 /*** STYLING CHECKOUT PAGES ***/
 
 .checkout__bill {
-  /* background: #fff4d6; */
+  background: #fff4d6;
   padding: 30px;
 }
 

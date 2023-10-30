@@ -13,9 +13,17 @@ import {
   ListGroupItem,
   Table,
 } from 'reactstrap'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import axios from 'axios'
 import { CircularProgress } from '@material-ui/core'
+import CreatableSelect from 'react-select/creatable'
+import Select from 'react-select'
+
+const options = [
+  { label: 'Cycling', value: 'Cycling' },
+  { label: 'Swimming', value: 'Swimming' },
+  { label: 'Gardening', value: 'Gardening' },
+]
 
 function reducer(state, action) {
   switch (action.type) {
@@ -62,6 +70,7 @@ function ModifierEdit({ params }) {
     register,
     formState: { errors },
     setValue,
+    control,
   } = useForm()
   const { userInfo } = state
   const router = useRouter()
@@ -92,64 +101,27 @@ function ModifierEdit({ params }) {
     }
   }, [])
 
-  const uploadHandler = async (e, imageField = 'image') => {
-    const file = e.target.files[0]
-    const bodyFormData = new FormData()
-    bodyFormData.append('file', file)
-    try {
-      dispatch({ type: 'UPLOAD_REQUEST' })
-      const { data } = await axios.post('/api/admin/upload', bodyFormData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          authorization: `Bearer ${userInfo.token}`,
-        },
-      })
-      dispatch({ type: 'UPLOAD_SUCCESS' })
-      setValue(imageField, data.secure_url)
-      console.log(data.secure_url)
-      toast.success('File uploaded successfully!')
-    } catch (err) {
-      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) })
-      toast.error(`${getError(err)}`)
-      console.log('error', err || 'Something went wrong uploading file')
-    }
-  }
-
-  const submitHandler = async ({
-    name,
-    slug,
-    price,
-    category,
-    image,
-    image01,
-    image02,
-    countInStock,
-    description,
-  }) => {
-    try {
-      dispatch({ type: 'UPDATE_REQUEST' })
-      await axios.put(
-        `/api/admin/modifiers/${modifierId}`,
-        {
-          name,
-          slug,
-          price,
-          category,
-          image,
-          image01,
-          image02,
-          countInStock,
-          description,
-        },
-        { headers: { authorization: `Bearer ${userInfo.token}` } },
-      )
-      dispatch({ type: 'UPDATE_SUCCESS' })
-      toast.success(`Modifier updated successfully`)
-      router.push('/admin/modifiers')
-    } catch (err) {
-      dispatch({ type: 'UPDATE_FAIL', payload: getError(err) })
-      toast.error(`${getError(err)}`)
-    }
+  const submitHandler = async ({ title, option, usedIn, cost }) => {
+    console.log('ALL DATA', title, option, usedIn, cost)
+    // try {
+    //   dispatch({ type: 'UPDATE_REQUEST' })
+    //   await axios.put(
+    //     `/api/admin/modifiers/${modifierId}`,
+    //     {
+    //       title,
+    //       option,
+    //       usedIn,
+    //       cost,
+    //     },
+    //     { headers: { authorization: `Bearer ${userInfo.token}` } },
+    //   )
+    //   dispatch({ type: 'UPDATE_SUCCESS' })
+    //   toast.success(`Modifier updated successfully`)
+    //   router.push('/admin/modifier')
+    // } catch (err) {
+    //   dispatch({ type: 'UPDATE_FAIL', payload: getError(err) })
+    //   toast.error(`${getError(err)}`)
+    // }
   }
 
   return (
@@ -157,7 +129,24 @@ function ModifierEdit({ params }) {
       <Head>
         <title>Profile</title>
         <meta name="description" content="Your Current Cart" />
-        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
       </Head>
       <main>
         <ToastContainer />
@@ -201,187 +190,103 @@ function ModifierEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('name', {
-                          required: 'Please enter name',
+                        {...register('title', {
+                          required: 'Please enter title',
                         })}
-                        placeholder="Modidier name"
+                        placeholder="Title name"
                         required
                       ></input>
-                      {errors.name && (
+                      {errors.title && (
                         <div className="text-danger">
-                          {errors?.name.message}
+                          {errors?.title.message}
                         </div>
                       )}
                     </div>
-
                     <div className="form__group">
-                      <input
-                        type="text"
-                        {...register('slug', {
-                          required: 'Slug is required',
-                        })}
-                        placeholder="Slug"
-                        required
-                      ></input>
-                      {errors.slug && (
+                      <Controller
+                        control={control}
+                        // defaultValue={options.map((c) => c.value)}
+                        name="option"
+                        render={({ field: { onChange, value, ref } }) => (
+                          <CreatableSelect
+                            // options={options}
+                            isMulti={true}
+                            // defaultValue={options[0]}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 3,
+                              colors: {
+                                ...theme.colors,
+                                primary25: '#ff566a56',
+                                primary: '#ff566b',
+                              },
+                            })}
+                            // set data of option in react-hook-form register function
+                            // value={options.filter((c) =>
+                            //   value.includes(c.value),
+                            // )}
+                            onChange={(val) =>
+                              onChange(val.map((c) => c.value))
+                            }
+                          />
+                        )}
+                      />
+                      {errors.option && (
                         <div className="text-danger">
-                          {errors?.slug.message}
+                          {errors?.option.message}
                         </div>
                       )}
                     </div>
-
+                    <div className="form__group">
+                      <Controller
+                        control={control}
+                        defaultValue={options.map((c) => c.value)}
+                        name="usedIn"
+                        render={({ field: { onChange, value, ref } }) => (
+                          <Select
+                            options={options}
+                            isMulti={true}
+                            defaultValue={options[0]}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 3,
+                              colors: {
+                                ...theme.colors,
+                                primary25: '#ff566a56',
+                                primary: '#ff566b',
+                              },
+                            })}
+                            // set data of option in react-hook-form register function
+                            value={options.filter((c) =>
+                              value.includes(c.value),
+                            )}
+                            onChange={(val) =>
+                              onChange(val.map((c) => c.value))
+                            }
+                          />
+                        )}
+                      />
+                      {errors.option && (
+                        <div className="text-danger">
+                          {errors?.option.message}
+                        </div>
+                      )}
+                    </div>
                     <div className="form__group">
                       <input
                         type="number"
-                        {...register('price', {
-                          required: 'Price is required',
+                        {...register('cost', {
+                          required: 'Please enter cost',
                         })}
-                        placeholder="Modifier price"
+                        placeholder="Enter cost"
                         required
                       ></input>
-                      {errors.price && (
+                      {errors.cost && (
                         <div className="text-danger">
-                          {errors.price.message}
+                          {errors?.cost.message}
                         </div>
                       )}
                     </div>
-
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        {...register('category', {
-                          required: 'Category is required',
-                        })}
-                        placeholder="Product category"
-                        required
-                      ></input>
-                      {errors.category && (
-                        <div className="text-danger">
-                          {errors.category.message}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        {...register('image', {
-                          required: 'Image is required',
-                        })}
-                        placeholder="Product first image"
-                        required
-                      ></input>
-                      {errors.image && (
-                        <div className="text-danger">
-                          {errors.image.message}
-                        </div>
-                      )}
-                    </div>
-                    <div className="form__group">
-                      <input
-                        type="file"
-                        onChange={uploadHandler}
-                        id="upload"
-                        hidden
-                      />
-                      <label className="upload__btn" for="upload">
-                        Choose file
-                      </label>
-                      {loadingUpload && <div>Waiting for file...</div>}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        id="image01"
-                        {...register('image01', {
-                          required: 'Second image is required',
-                        })}
-                        placeholder="Product second image"
-                        required
-                      ></input>
-                      {errors.image01 && (
-                        <div className="text-danger">
-                          {errors.image01.message}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="file"
-                        onChange={(e) => uploadHandler(e, 'image01')}
-                        id="upload1"
-                        hidden
-                      />
-                      <label className="upload__btn" for="upload1">
-                        Choose file
-                      </label>
-                      {loadingUpload && <div>Waiting for file...</div>}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        id="image02"
-                        {...register('image02', {
-                          required: 'Third image is required',
-                        })}
-                        placeholder="Product thrid image"
-                        required
-                      ></input>
-                      {errors.image02 && (
-                        <div className="text-danger">
-                          {errors.image02.message}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="file"
-                        onChange={(e) => uploadHandler(e, 'image02')}
-                        id="upload2"
-                        hidden
-                      />
-                      <label className="upload__btn" for="upload2">
-                        Choose file
-                      </label>
-                      {loadingUpload && <div>Waiting for file...</div>}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        {...register('description', {
-                          required: 'Description is required',
-                        })}
-                        placeholder="Product description"
-                        required
-                      ></input>
-                      {errors.description && (
-                        <div className="text-danger">
-                          {errors.description.message}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="form__group">
-                      <input
-                        type="number"
-                        {...register('countInStock', {
-                          required: 'CountInStock is required',
-                        })}
-                        placeholder="Product count"
-                        required
-                      ></input>
-                      {errors.countInStock && (
-                        <div className="text-danger">
-                          {errors.countInStock.message}
-                        </div>
-                      )}
-                    </div>
-
                     <button type="submit" className="addTOCart__btn">
                       Create
                     </button>

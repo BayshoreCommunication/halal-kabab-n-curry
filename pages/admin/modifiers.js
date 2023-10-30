@@ -128,7 +128,24 @@ function Modifiers() {
       <Head>
         <title>All Modifiers</title>
         <meta name="description" content="Your Current Cart" />
-        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
       </Head>
       <main>
         <ToastContainer />
@@ -178,11 +195,10 @@ function Modifiers() {
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>NAME</th>
+                          <th>TITLE</th>
+                          <th>OPTION</th>
+                          <th>USED IN</th>
                           <th>PRICE</th>
-                          <th>CATEGORY</th>
-                          <th>COUNT</th>
-                          <th>RATING</th>
                           <th>ACTIONS</th>
                         </tr>
                       </thead>
@@ -192,15 +208,18 @@ function Modifiers() {
                             <th scope="row">
                               {modifier?._id.substring(20, 24)}
                             </th>
-                            <td>{modifier?.name}</td>
-                            <td>{modifier?.price}</td>
-                            <td>{modifier?.category}</td>
-                            <td>{modifier?.countInStock}</td>
-                            <td>{modifier?.rating}</td>
+                            <td>{modifier?.title}</td>
+                            <td>
+                              {modifier?.option.map((item) => item + ' ,')}
+                            </td>
+                            <td>
+                              {modifier?.usedIn.map((item) => item + ' ,')}
+                            </td>
+                            <td>{modifier?.cost}</td>
                             <td className="d-flex justify-content-between">
                               {' '}
                               <Link
-                                href={`/admin/modifiers/${modifier?._id}`}
+                                href={`/admin/modifier/${modifier?._id}`}
                                 passHref
                                 legacyBehavior
                               >
