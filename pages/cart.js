@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import { Container, Row, Col, Table } from "reactstrap";
-import { Select, MenuItem } from "@material-ui/core";
-import CommonSection from "../components/UI/CommonSection";
-import { useContext } from "react";
-import { Store } from "../helpers/Store";
-import { toast, ToastContainer } from "react-toastify";
-import axios from "axios";
-import dynamic from "next/dynamic";
+import React, { useState, useEffect } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Container, Row, Col, Table } from 'reactstrap'
+import { Select, MenuItem } from '@material-ui/core'
+import CommonSection from '../components/UI/CommonSection'
+import { useContext } from 'react'
+import { Store } from '../helpers/Store'
+import { toast, ToastContainer } from 'react-toastify'
+import axios from 'axios'
+import dynamic from 'next/dynamic'
 function Cart() {
-  const [isCart, setIsCart] = useState(false);
-  const { state, dispatch } = useContext(Store);
+  const [isCart, setIsCart] = useState(false)
+  const { state, dispatch } = useContext(Store)
   const {
     cart: { cartItems },
-  } = state;
+  } = state
 
   useEffect(() => {
-    cartItems ? setIsCart(true) : setIsCart(false);
-  }, []);
+    cartItems ? setIsCart(true) : setIsCart(false)
+  }, [])
 
   const updateCartHandler = async (item, quantity) => {
-    const data = axios.get(`/api/products/${item._id}`);
+    const data = axios.get(`/api/products/${item._id}`)
     if (data.countInStock <= 0) {
-      toast.error("Sorry. This food is not available today!");
-      return;
+      toast.error('Sorry. This food is not available today!')
+      return
     }
 
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
-  };
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
+  }
 
   const removeItemHandler = (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
-  };
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+  }
 
   return (
     <>
@@ -65,13 +65,13 @@ function Cart() {
         <ToastContainer />
         <CommonSection title="Your Cart" />
 
-        <section>
+        <section className="m-5">
           <Container>
             <Row>
               <Col lg="12">
                 {cartItems.length === 0 ? (
-                  <h5 className="text-center m-5">
-                    Your cart is empty.{" "}
+                  <h5 className=" m-5">
+                    Your cart is empty.{' '}
                     <Link href="/menu" legacyBehavior>
                       <a>Go shopping </a>
                     </Link>
@@ -93,7 +93,7 @@ function Cart() {
                           cartItems.map((item) => (
                             // <Tr item={item} key={item.id} />
                             <tr>
-                              <td className="text-center cart__img-box">
+                              <td className=" cart__img-box">
                                 <div className="w-50">
                                   <Image
                                     width={50}
@@ -103,10 +103,10 @@ function Cart() {
                                   />
                                 </div>
                               </td>
-                              <td className="text-center">{item.name}</td>
-                              <td className="text-center">${item.price}</td>
-                              {/* <td className="text-center">{item.quantity}px</td> */}
-                              <td className="text-center">
+                              <td className="">{item.name}</td>
+                              <td className="">${item.price}</td>
+                              {/* <td className="">{item.quantity}px</td> */}
+                              <td className="">
                                 <Select
                                   value={item.quantity}
                                   onChange={(e) =>
@@ -118,11 +118,11 @@ function Cart() {
                                       <MenuItem key={x + 1} value={x + 1}>
                                         {x + 1}
                                       </MenuItem>
-                                    )
+                                    ),
                                   )}
                                 </Select>
                               </td>
-                              <td className="text-center cart__item-del">
+                              <td className=" cart__item-del">
                                 <i
                                   onClick={() => removeItemHandler(item)}
                                   className="cursor__pointer ri-delete-bin-line"
@@ -140,7 +140,7 @@ function Cart() {
                           {isCart &&
                             cartItems.reduce(
                               (a, c) => a + c.quantity * c.price,
-                              0
+                              0,
                             )}
                         </span>
                       </h6>
@@ -166,7 +166,7 @@ function Cart() {
         </section>
       </main>
     </>
-  );
+  )
 }
 
-export default dynamic(() => Promise.resolve(Cart), { ssr: false });
+export default dynamic(() => Promise.resolve(Cart), { ssr: false })

@@ -85,8 +85,6 @@ function Order({ params }) {
     deliveredAt,
   } = order
 
-  console.log(orderItems)
-
   useEffect(() => {
     if (!userInfo) {
       return router.push('/login')
@@ -256,6 +254,7 @@ function Order({ params }) {
                           <th>Image</th>
                           <th>Name</th>
                           <th>Price</th>
+                          <th>Add-Ons</th>
                           <th>Quantity</th>
                         </tr>
                       </thead>
@@ -272,10 +271,11 @@ function Order({ params }) {
                                 />
                               </div>
                             </td>
-                            <td className="">{item.name}</td>
-                            <td className="">${item.price}</td>
+                            <td>{item.name}</td>
+                            <td>${item.price}</td>
+                            <td>${0}</td>
                             {/* <td className="text-center">{item.quantity}px</td> */}
-                            <td className="">{item.quantity}px</td>
+                            <td>{item.quantity}px</td>
                           </tr>
                         ))}
                       </tbody>
@@ -297,6 +297,9 @@ function Order({ params }) {
                     <h6 className="d-flex align-items-center justify-content-between mb-3">
                       Shipping: <span>${shippingPrice}</span>
                     </h6>
+                    {/* <h6 className="d-flex align-items-center justify-content-between mb-3">
+                      Add-Ons: <span>${shippingPrice}</span>
+                    </h6> */}
                     <div className="checkout__total">
                       <h5 className="d-flex align-items-center justify-content-between">
                         Total: <span>${totalPrice}</span>
