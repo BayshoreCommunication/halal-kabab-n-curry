@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap");
 /* google fonts */
 
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
 /* reset default style */
 
 * {
@@ -20,7 +20,7 @@ body {
   padding: 0;
   margin: 0;
   background: #fcfcfc;
-  font-family: 'Istok Web', sans-serif;
+  font-family: "Istok Web", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.7px;
@@ -32,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'RocknRoll One', sans-serif !important;
+  font-family: "RocknRoll One", sans-serif !important;
 }
 
 a {
@@ -166,7 +166,7 @@ a {
   font-weight: bold;
   color: #f8b60d;
   font-size: 25px;
-  font-family: 'Pacifico';
+  font-family: "Pacifico";
   margin-left: 20px;
   margin-bottom: 3px;
 }
@@ -1586,6 +1586,19 @@ a {
   padding: 30px;
 }
 
+.css-1q2wjb9-MultiValueRemove:hover {
+  background-color: #fff4d6 !important;
+  color: #f8b60d !important;
+}
+
+.tag__label {
+  margin: 2px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  background-color: #f8b60d;
+  text-transform: capitalize;
+}
+
 .checkout__total {
   border-top: 1px solid #ddd;
   padding-top: 30px;
@@ -1604,7 +1617,7 @@ a {
   margin: auto;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
 
 .popup .content {
   position: absolute;

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useReducer } from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import { Store } from '../../../helpers/Store'
-import { useRouter } from 'next/router'
-import { getError } from '../../../helpers/error'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { useContext, useEffect, useReducer, useState } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { Store } from "../../../helpers/Store";
+import { useRouter } from "next/router";
+import { getError } from "../../../helpers/error";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -12,122 +12,130 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from 'reactstrap'
-import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
-import { CircularProgress } from '@material-ui/core'
-import CreatableSelect from 'react-select/creatable'
-import Select from 'react-select'
-
-const options = [
-  { label: 'Cycling', value: 'Cycling' },
-  { label: 'Swimming', value: 'Swimming' },
-  { label: 'Gardening', value: 'Gardening' },
-]
+} from "reactstrap";
+import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
+import CreatableSelect from "react-select/creatable";
+import Select from "react-select";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, error: '' }
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }
-    case 'UPDATE_REQUEST':
-      return { ...state, loadingUpdate: true, errorUpdate: '' }
-    case 'UPDATE_SUCCESS':
-      return { ...state, loadingUpdate: false, errorUpdate: '' }
-    case 'UPDATE_FAIL':
-      return { ...state, loadingUpdate: false, errorUpdate: action.payload }
-    case 'UPLOAD_REQUEST':
-      return { ...state, loadingUpload: true, errorUpload: '' }
-    case 'UPLOAD_SUCCESS':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, error: "" };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "UPDATE_REQUEST":
+      return { ...state, loadingUpdate: true, errorUpdate: "" };
+    case "UPDATE_SUCCESS":
+      return { ...state, loadingUpdate: false, errorUpdate: "" };
+    case "UPDATE_FAIL":
+      return { ...state, loadingUpdate: false, errorUpdate: action.payload };
+    case "UPLOAD_REQUEST":
+      return { ...state, loadingUpload: true, errorUpload: "" };
+    case "UPLOAD_SUCCESS":
       return {
         ...state,
         loadingUpload: false,
-        errorUpload: '',
-      }
-    case 'UPLOAD_FAIL':
-      return { ...state, loadingUpload: false, errorUpload: action.payload }
+        errorUpload: "",
+      };
+    case "UPLOAD_FAIL":
+      return { ...state, loadingUpload: false, errorUpload: action.payload };
 
     default:
-      return state
+      return state;
   }
 }
 
 function ModifierEdit({ params }) {
-  const modifierId = params.id
-  const { state } = useContext(Store)
-  const [
-    { loading, error, loadingUpdate, loadingUpload },
-    dispatch,
-  ] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  })
+  const modifierId = params.id;
+  const [products, setProducts] = useState([]);
+  const { state } = useContext(Store);
+  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: "",
+    });
   const {
     handleSubmit,
     register,
     formState: { errors },
     setValue,
     control,
-  } = useForm()
-  const { userInfo } = state
-  const router = useRouter()
+  } = useForm();
+  const { userInfo } = state;
+  const router = useRouter();
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login')
+      router.push("/login");
     } else {
       const fetchData = async () => {
         try {
-          dispatch({ type: 'FETCH_REQUEST' })
+          dispatch({ type: "FETCH_REQUEST" });
           const { data } = await axios.get(
             `/api/admin/modifiers/${modifierId}`,
             {
               headers: { authorization: `Bearer ${userInfo.token}` },
-            },
-          )
-          dispatch({ type: 'FETCH_SUCCESS' })
-          setValue('title', data.title)
-          setValue('option', data.option)
-          setValue('usedIn', data.usedIn)
-          setValue('cost', data.cost)
+            }
+          );
+          const { data: productData } = await axios.get(`/api/admin/products`, {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          });
+          setProducts(productData);
+          dispatch({ type: "FETCH_SUCCESS" });
+          setValue("title", data.title);
+          setValue("option", data.option);
+          setValue("usedIn", data.usedIn);
+          setValue("price", data.price);
         } catch (err) {
-          dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
+          dispatch({ type: "FETCH_FAIL", payload: getError(err) });
         }
-      }
-      fetchData()
+      };
+      fetchData();
     }
-  }, [])
+  }, []);
 
-  const submitHandler = async ({ title, option, usedIn, cost }) => {
-    console.log('ALL DATA', title, option, usedIn, cost)
-    // try {
-    //   dispatch({ type: 'UPDATE_REQUEST' })
-    //   await axios.put(
-    //     `/api/admin/modifiers/${modifierId}`,
-    //     {
-    //       title,
-    //       option,
-    //       usedIn,
-    //       cost,
-    //     },
-    //     { headers: { authorization: `Bearer ${userInfo.token}` } },
-    //   )
-    //   dispatch({ type: 'UPDATE_SUCCESS' })
-    //   toast.success(`Modifier updated successfully`)
-    //   router.push('/admin/modifier')
-    // } catch (err) {
-    //   dispatch({ type: 'UPDATE_FAIL', payload: getError(err) })
-    //   toast.error(`${getError(err)}`)
-    // }
-  }
+  const submitHandler = async ({ title, option, usedIn, price }) => {
+    try {
+      dispatch({ type: "UPDATE_REQUEST" });
+      await axios.put(
+        `/api/admin/modifiers/${modifierId}`,
+        {
+          title,
+          option,
+          usedIn,
+          price,
+        },
+        { headers: { authorization: `Bearer ${userInfo.token}` } }
+      );
+      dispatch({ type: "UPDATE_SUCCESS" });
+      toast.success(`Modifier updated successfully`);
+      router.push("/admin/modifiers");
+    } catch (err) {
+      dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
+      toast.error(`${getError(err)}`);
+    }
+  };
+
+  const options =
+    products?.map((product) => ({
+      label: product?.name,
+      value: product?._id,
+    })) || [];
+
+  let options2 = [
+    { value: "Spicy", label: "Spicy" },
+    { value: "Mild", label: "Mild" },
+    { value: "Extra Spicy", label: "Extra Spicy" },
+  ];
 
   return (
     <>
       <Head>
-        <title>Profile</title>
+        <title>Modifier Edit</title>
         <meta name="description" content="Your Current Cart" />
         {/* <link rel="icon" href="/favicon.ico" /> */}
         <link
@@ -190,8 +198,8 @@ function ModifierEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('title', {
-                          required: 'Please enter title',
+                        {...register("title", {
+                          required: "Please enter title",
                         })}
                         placeholder="Title name"
                         required
@@ -205,29 +213,31 @@ function ModifierEdit({ params }) {
                     <div className="form__group">
                       <Controller
                         control={control}
-                        // defaultValue={options.map((c) => c.value)}
+                        defaultValue={options2.map((c) => c.value)}
                         name="option"
                         render={({ field: { onChange, value, ref } }) => (
                           <CreatableSelect
-                            // options={options}
+                            options={options2}
                             isMulti={true}
-                            // defaultValue={options[0]}
+                            defaultValue={options2[0]}
                             theme={(theme) => ({
                               ...theme,
                               borderRadius: 3,
                               colors: {
                                 ...theme.colors,
-                                primary25: '#ff566a56',
-                                primary: '#ff566b',
+                                primary25: "#fff4d6",
+                                primary: "#f8b60d",
                               },
                             })}
                             // set data of option in react-hook-form register function
-                            // value={options.filter((c) =>
-                            //   value.includes(c.value),
-                            // )}
-                            onChange={(val) =>
-                              onChange(val.map((c) => c.value))
-                            }
+                            value={options2.filter((c) =>
+                              value.includes(c.value)
+                            )}
+                            onChange={(val) => {
+                              // options2 includes the new option
+                              options2 = val;
+                              onChange(val.map((c) => c.value));
+                            }}
                           />
                         )}
                       />
@@ -252,13 +262,13 @@ function ModifierEdit({ params }) {
                               borderRadius: 3,
                               colors: {
                                 ...theme.colors,
-                                primary25: '#ff566a56',
-                                primary: '#ff566b',
+                                primary25: "#fff4d6",
+                                primary: "#f8b60d",
                               },
                             })}
                             // set data of option in react-hook-form register function
                             value={options.filter((c) =>
-                              value.includes(c.value),
+                              value.includes(c.value)
                             )}
                             onChange={(val) =>
                               onChange(val.map((c) => c.value))
@@ -275,15 +285,15 @@ function ModifierEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="number"
-                        {...register('cost', {
-                          required: 'Please enter cost',
-                        })}
-                        placeholder="Enter cost"
+                        {...register("price", {
+                          required: "Please enter price",
+                        })} // custom register react-hook-form
+                        placeholder="Price"
                         required
                       ></input>
-                      {errors.cost && (
+                      {errors.price && (
                         <div className="text-danger">
-                          {errors?.cost.message}
+                          {errors?.price.message}
                         </div>
                       )}
                     </div>
@@ -298,13 +308,13 @@ function ModifierEdit({ params }) {
         </Container>
       </main>
     </>
-  )
+  );
 }
 
 export async function getServerSideProps({ params }) {
   return {
     props: { params },
-  }
+  };
 }
 
-export default dynamic(() => Promise.resolve(ModifierEdit), { ssr: false })
+export default dynamic(() => Promise.resolve(ModifierEdit), { ssr: false });

@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import Image from 'next/image'
-import { Store } from '../helpers/Store'
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import React, { useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Image from "next/image";
+import { Store } from "../helpers/Store";
+import axios from "axios";
+import Cookies from "js-cookie";
 import {
   Container,
   Col,
@@ -12,60 +12,79 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from 'reactstrap'
-import CommonSection from '../components/UI/CommonSection'
-import { toast, ToastContainer } from 'react-toastify'
-import dynamic from 'next/dynamic'
-import CheckWizard from '../components/CheckWizard'
-import { getError } from '../helpers/error'
+} from "reactstrap";
+import CommonSection from "../components/UI/CommonSection";
+import { toast, ToastContainer } from "react-toastify";
+import dynamic from "next/dynamic";
+import CheckWizard from "../components/CheckWizard";
+import { getError } from "../helpers/error";
 
 function Placeorder() {
-  const [isCart, setIsCart] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
-  const { state, dispatch } = useContext(Store)
+  const [isCart, setIsCart] = useState(false);
+  const [modifiers, setModifiers] = useState([]); // get modifier data from api
+  const [addon, setAddon] = useState(0); // get addon data from api
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
   const {
     userInfo,
     cart: { cartItems, shippingAddress, paymentMethod },
-  } = state
-  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100 // 123.456 => 123.46
+  } = state;
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.456 => 123.46
   const itemsPrice = round2(
-    cartItems.reduce((a, c) => a + c.price * c.quantity, 0),
-  )
-  const shippingPrice = itemsPrice > 200 ? 0 : 15
-  const taxPrice = round2(itemsPrice * 0.15)
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
+    cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
+  );
+  const shippingPrice = itemsPrice > 200 ? 0 : 15;
+  const taxPrice = round2(itemsPrice * 0.15);
+  const totalPrice = round2(
+    itemsPrice + shippingPrice + taxPrice + addon ? addon : 0
+  );
   useEffect(() => {
     if (!paymentMethod) {
-      router.push('/payment')
+      router.push("/payment");
     }
     if (cartItems.length === 0) {
-      router.push('/cart')
+      router.push("/cart");
     }
-  }, [])
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get("/api/modifier");
+      setModifiers(data);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast.error(`${getError(err)}`);
+    }
+  };
+
   useEffect(() => {
-    cartItems ? setIsCart(true) : setIsCart(false)
-  }, [])
+    fetchData();
+    cartItems ? setIsCart(true) : setIsCart(false);
+  }, []);
 
   const updateCartHandler = async (item, quantity) => {
-    const data = axios.get(`/api/products/${item._id}`)
+    const data = axios.get(`/api/products/${item._id}`);
+
     if (data.countInStock <= 0) {
-      toast.error('Sorry. This food is not available today!')
-      return
+      toast.error("Sorry. This food is not available today!");
+      return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
-  }
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
+  };
 
   const removeItemHandler = (item) => {
-    dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
-  }
+    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+  };
 
   const placeOrderHandler = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await axios.post(
-        '/api/orders',
+        "/api/orders",
         {
           orderItems: cartItems,
           shippingAddress,
@@ -79,17 +98,22 @@ function Placeorder() {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
           },
-        },
-      )
-      dispatch({ type: 'CART_CLEAR' })
-      Cookies.remove('cartItems')
-      setLoading(false)
-      router.push(`/order/${data._id}`)
+        }
+      );
+      dispatch({ type: "CART_CLEAR" });
+      Cookies.remove("cartItems");
+      setLoading(false);
+      router.push(`/order/${data._id}`);
     } catch (err) {
-      setLoading(false)
-      toast.error(`${getError(err)}`)
+      setLoading(false);
+      toast.error(`${getError(err)}`);
     }
-  }
+  };
+
+  const handleAddOn = (e) => {
+    let addOnData = Number(e.target.value);
+    setAddon(addOnData);
+  };
 
   return (
     <>
@@ -133,8 +157,8 @@ function Placeorder() {
               <ListGroup>
                 <ListGroupItem>
                   <h6 className="mb-4">Shipping Address</h6>
-                  {shippingAddress.fullName}, {shippingAddress.address},{' '}
-                  {shippingAddress.city}, {shippingAddress.postalCode},{' '}
+                  {shippingAddress.fullName}, {shippingAddress.address},{" "}
+                  {shippingAddress.city}, {shippingAddress.postalCode},{" "}
                   {shippingAddress.country}
                 </ListGroupItem>
                 <ListGroupItem>
@@ -150,6 +174,7 @@ function Placeorder() {
                         <th>Product Title</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th>Add-Ons</th>
                         <th>Delete</th>
                       </tr>
                     </thead>
@@ -157,7 +182,7 @@ function Placeorder() {
                       {isCart &&
                         cartItems.map((item) => (
                           <tr>
-                            <td className="text-center cart__img-box">
+                            <td className="cart__img-box">
                               <div className="w-50">
                                 <Image
                                   width={50}
@@ -167,10 +192,10 @@ function Placeorder() {
                                 />
                               </div>
                             </td>
-                            <td className="text-center">{item.name}</td>
-                            <td className="text-center">${item.price}</td>
+                            <td className="">{item.name}</td>
+                            <td className="">${item.price}</td>
                             {/* <td className="text-center">{item.quantity}px</td> */}
-                            <td className="text-center">
+                            <td className="">
                               <select
                                 value={item.quantity}
                                 onChange={(e) =>
@@ -180,8 +205,24 @@ function Placeorder() {
                                 {[...Array(item.countInStock).keys()].map(
                                   (x) => (
                                     <option value={x + 1}>{x + 1}</option>
-                                  ),
+                                  )
                                 )}
+                              </select>
+                            </td>
+                            <td className="">
+                              <select onChange={handleAddOn}>
+                                <option value="none">None</option>
+                                {modifiers.map((modifier) => {
+                                  if (modifier.usedIn.includes(item._id)) {
+                                    return modifier.option.map((option) => {
+                                      return (
+                                        <option value={modifier.price}>
+                                          {option}
+                                        </option>
+                                      );
+                                    });
+                                  }
+                                })}
                               </select>
                             </td>
                             <td className="text-center cart__item-del">
@@ -211,6 +252,9 @@ function Placeorder() {
                   <h6 className="d-flex align-items-center justify-content-between mb-3">
                     Shipping: <span>${shippingPrice}</span>
                   </h6>
+                  <h6 className="d-flex align-items-center justify-content-between mb-3">
+                    Add-Ons: <span>${addon}</span>
+                  </h6>
                   <div className="checkout__total">
                     <h5 className="d-flex align-items-center justify-content-between">
                       Total: <span>${totalPrice}</span>
@@ -226,7 +270,7 @@ function Placeorder() {
         </Container>
       </section>
     </>
-  )
+  );
 }
 
-export default dynamic(() => Promise.resolve(Placeorder), { ssr: false })
+export default dynamic(() => Promise.resolve(Placeorder), { ssr: false });
