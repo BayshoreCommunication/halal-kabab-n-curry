@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import Image from "next/image";
-import { Store } from "../helpers/Store";
-import axios from "axios";
-import Cookies from "js-cookie";
+import React, { useState, useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import Image from 'next/image'
+import { Store } from '../helpers/Store'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 import {
   Container,
   Col,
@@ -12,67 +12,67 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from "reactstrap";
-import CommonSection from "../components/UI/CommonSection";
-import { toast, ToastContainer } from "react-toastify";
-import dynamic from "next/dynamic";
-import CheckWizard from "../components/CheckWizard";
-import { getError } from "../helpers/error";
+} from 'reactstrap'
+import CommonSection from '../components/UI/CommonSection'
+import { toast, ToastContainer } from 'react-toastify'
+import dynamic from 'next/dynamic'
+import CheckWizard from '../components/CheckWizard'
+import { getError } from '../helpers/error'
 
 function Placeorder() {
-  const [isCart, setIsCart] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { state, dispatch } = useContext(Store);
+  const [isCart, setIsCart] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const { state, dispatch } = useContext(Store)
   const {
     userInfo,
     cart: { cartItems, shippingAddress, paymentMethod },
-  } = state;
-  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.456 => 123.46
+  } = state
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100 // 123.456 => 123.46
   const itemsPrice = cartItems.addonPrice
     ? round2(
-        cartItems.reduce((a, c) => a + c.addonPrice + c.price * c.quantity, 0)
+        cartItems.reduce((a, c) => a + c.addonPrice + c.price * c.quantity, 0),
       )
-    : round2(cartItems.reduce((a, c) => a + c.price * c.quantity, 0));
+    : round2(cartItems.reduce((a, c) => a + c.price * c.quantity, 0))
 
-  const shippingPrice = itemsPrice > 200 ? 0 : 15;
-  const taxPrice = round2(itemsPrice * 0.15);
-  const totalAddons = cartItems.reduce((a, c) => a + c.addonPrice, 0);
+  const shippingPrice = itemsPrice > 200 ? 0 : 15
+  const taxPrice = round2(itemsPrice * 0.15)
+  const totalAddons = cartItems.reduce((a, c) => a + c.addonPrice, 0)
 
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice)
   useEffect(() => {
     if (!paymentMethod) {
-      router.push("/payment");
+      router.push('/payment')
     }
     if (cartItems.length === 0) {
-      router.push("/cart");
+      router.push('/cart')
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    cartItems ? setIsCart(true) : setIsCart(false);
-  }, []);
+    cartItems ? setIsCart(true) : setIsCart(false)
+  }, [])
 
   const updateCartHandler = async (item, quantity) => {
-    const data = axios.get(`/api/products/${item._id}`);
+    const data = axios.get(`/api/products/${item._id}`)
 
     if (data.countInStock <= 0) {
-      toast.error("Sorry. This food is not available today!");
-      return;
+      toast.error('Sorry. This food is not available today!')
+      return
     }
 
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
-  };
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
+  }
 
   const removeItemHandler = (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
-  };
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+  }
 
   const placeOrderHandler = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const { data } = await axios.post(
-        "/api/orders",
+        '/api/orders',
         {
           orderItems: cartItems,
           shippingAddress,
@@ -86,17 +86,17 @@ function Placeorder() {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
           },
-        }
-      );
-      dispatch({ type: "CART_CLEAR" });
-      Cookies.remove("cartItems");
-      setLoading(false);
-      router.push(`/order/${data._id}`);
+        },
+      )
+      dispatch({ type: 'CART_CLEAR' })
+      Cookies.remove('cartItems')
+      setLoading(false)
+      router.push(`/order/${data._id}`)
     } catch (err) {
-      setLoading(false);
-      toast.error(`${getError(err)}`);
+      setLoading(false)
+      toast.error(`${getError(err)}`)
     }
-  };
+  }
 
   return (
     <>
@@ -140,8 +140,8 @@ function Placeorder() {
               <ListGroup>
                 <ListGroupItem>
                   <h6 className="mb-4">Shipping Address</h6>
-                  {shippingAddress.fullName}, {shippingAddress.address},{" "}
-                  {shippingAddress.city}, {shippingAddress.postalCode},{" "}
+                  {shippingAddress.fullName}, {shippingAddress.address},{' '}
+                  {shippingAddress.city}, {shippingAddress.postalCode},{' '}
                   {shippingAddress.country}
                 </ListGroupItem>
                 <ListGroupItem>
@@ -188,12 +188,12 @@ function Placeorder() {
                                 {[...Array(item.countInStock).keys()].map(
                                   (x) => (
                                     <option value={x + 1}>{x + 1}</option>
-                                  )
+                                  ),
                                 )}
                               </select>
                             </td>
                             <td className="">
-                              {item.addon ? item.addon : "None"}
+                              {item.addon ? item.addon : 'None'}
                             </td>
                             <td className="text-center cart__item-del">
                               <i
@@ -240,7 +240,7 @@ function Placeorder() {
         </Container>
       </section>
     </>
-  );
+  )
 }
 
-export default dynamic(() => Promise.resolve(Placeorder), { ssr: false });
+export default dynamic(() => Promise.resolve(Placeorder), { ssr: false })

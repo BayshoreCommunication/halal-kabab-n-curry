@@ -1,61 +1,63 @@
-import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import { Container, Row, Col, Table } from "reactstrap";
-import { Select, MenuItem } from "@material-ui/core";
-import CommonSection from "../components/UI/CommonSection";
-import { useContext } from "react";
-import { Store } from "../helpers/Store";
-import { toast, ToastContainer } from "react-toastify";
-import axios from "axios";
-import dynamic from "next/dynamic";
+import React, { useState, useEffect } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Container, Row, Col, Table } from 'reactstrap'
+import { Select, MenuItem } from '@material-ui/core'
+import CommonSection from '../components/UI/CommonSection'
+import { useContext } from 'react'
+import { Store } from '../helpers/Store'
+import { toast, ToastContainer } from 'react-toastify'
+import axios from 'axios'
+import dynamic from 'next/dynamic'
 function Cart() {
-  const [isCart, setIsCart] = useState(false);
-  const { state, dispatch } = useContext(Store);
-  const [modifiers, setModifiers] = useState([]);
+  const [isCart, setIsCart] = useState(false)
+  const { state, dispatch } = useContext(Store)
+  const [modifiers, setModifiers] = useState([])
+  const [addons, setAddons] = useState(false)
   const {
     cart: { cartItems },
-  } = state;
+  } = state
 
   const fetchData = async () => {
-    const { data } = await axios.get("/api/modifier");
-    setModifiers(data);
-  };
+    const { data } = await axios.get('/api/modifier')
+    setModifiers(data)
+  }
 
   useEffect(() => {
-    fetchData();
-    cartItems ? setIsCart(true) : setIsCart(false);
-  }, []);
+    fetchData()
+    cartItems ? setIsCart(true) : setIsCart(false)
+  }, [])
 
   const updateCartHandler = async (item, quantity) => {
-    const data = axios.get(`/api/products/${item._id}`);
+    const data = axios.get(`/api/products/${item._id}`)
     if (data.countInStock <= 0) {
-      toast.error("Sorry. This food is not available today!");
-      return;
+      toast.error('Sorry. This food is not available today!')
+      return
     }
 
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
-  };
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
+  }
 
   const removeItemHandler = (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
-  };
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+  }
 
   const handleAddOn = (item, addonItem) => {
     // convert string to json
-    const addon = JSON.parse(addonItem);
-    // setAddons dynamically in the bases of item index
-
+    const addon = JSON.parse(addonItem)
+    if (addon.option != 'None') {
+      setAddons(true)
+    }
     dispatch({
-      type: "CART_ADD_MODIFIER",
+      type: 'CART_ADD_MODIFIER',
       payload: {
         ...item,
         addon: addon.option,
         addonPrice: addon.price,
       },
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -92,7 +94,7 @@ function Cart() {
               <Col lg="12">
                 {cartItems.length === 0 ? (
                   <h5 className=" m-5">
-                    Your cart is empty.{" "}
+                    Your cart is empty.{' '}
                     <Link href="/menu" legacyBehavior>
                       <a>Go shopping </a>
                     </Link>
@@ -140,7 +142,7 @@ function Cart() {
                                           <MenuItem key={i} value={x + 1}>
                                             {x + 1}
                                           </MenuItem>
-                                        )
+                                        ),
                                       )}
                                     </Select>
                                   </td>
@@ -174,9 +176,9 @@ function Cart() {
                                                 >
                                                   {option}
                                                 </option>
-                                              );
-                                            }
-                                          );
+                                              )
+                                            },
+                                          )
                                         }
                                       })}
                                     </select>
@@ -188,7 +190,7 @@ function Cart() {
                                     ></i>
                                   </td>
                                 </tr>
-                              );
+                              )
                             }
                           })}
                       </tbody>
@@ -199,15 +201,15 @@ function Cart() {
                         Subtotal: $
                         <span className="cart__subtotal">
                           {isCart &&
-                            (cartItems.addonPrice
+                            (addons
                               ? cartItems.reduce(
                                   (a, c) =>
                                     a + c.addonPrice + c.quantity * c.price,
-                                  0
+                                  0,
                                 )
                               : cartItems.reduce(
                                   (a, c) => a + c.quantity * c.price,
-                                  0
+                                  0,
                                 ))}
                         </span>
                       </h6>
@@ -233,7 +235,7 @@ function Cart() {
         </section>
       </main>
     </>
-  );
+  )
 }
 
-export default dynamic(() => Promise.resolve(Cart), { ssr: false });
+export default dynamic(() => Promise.resolve(Cart), { ssr: false })
