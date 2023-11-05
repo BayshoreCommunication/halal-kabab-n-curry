@@ -315,7 +315,7 @@ a {
   color: gray;
   font-size: 1rem;
   background: transparent;
-  border: 1px solid rgba(221, 221, 221, 0.171);
+  border: 1px solid rgba(221, 221, 221, 0.562);
   outline: none;
   border-radius: 5px;
 }
@@ -639,7 +639,6 @@ a {
 
 .copyright__text {
   font-size: 0.8rem;
-  color: #f8b60d;
 }
 
 .social__links {
@@ -979,6 +978,9 @@ a {
 .why__choose-us {
   padding-top: 0;
 }
+.why__tasty-treat {
+  margin-top: 20px;
+}
 
 @media only screen and (max-width: 992px) {
   .product__content h5 a {
@@ -1064,6 +1066,10 @@ a {
 
   .slider__content h6 {
     font-size: 0.8rem;
+  }
+
+  .why__tasty-treat {
+    margin-top: 0px;
   }
 }
 
@@ -1374,6 +1380,18 @@ a {
 .product__price span {
   font-size: 2rem;
 }
+.individual_product__price {
+  font-weight: 600;
+  color: #212245;
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  margin-top: 10px;
+}
+
+.product__title {
+  text-transform: capitalize;
+}
 
 .product__content h5 {
   margin-bottom: 0px !important;
@@ -1466,6 +1484,9 @@ a {
     font-size: 1.2rem;
   }
   .product__price {
+    font-size: 12px;
+  }
+  .individual_product__price {
     font-size: 12px;
   }
   .category,

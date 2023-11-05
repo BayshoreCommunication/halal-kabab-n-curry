@@ -1,8 +1,10 @@
 import nc from "next-connect";
 import Modifier from "../../../../../models/Modifier";
 import db from "../../../../../helpers/db";
+import { isAdmin, isAuth } from "../../../../../helpers/auth";
 
 const handler = nc();
+handler.use(isAuth, isAdmin);
 
 handler.get(async (req, res) => {
   await db.connect();

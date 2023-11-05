@@ -1,8 +1,10 @@
-import nc from 'next-connect';
-import Product from '../../../../../models/Product';
-import db from '../../../../../helpers/db';
+import nc from "next-connect";
+import Product from "../../../../../models/Product";
+import db from "../../../../../helpers/db";
+import { isAdmin, isAuth } from "../../../../../helpers/auth";
 
 const handler = nc();
+handler.use(isAuth, isAdmin);
 
 handler.get(async (req, res) => {
   await db.connect();
@@ -12,25 +14,25 @@ handler.get(async (req, res) => {
 });
 
 handler.put(async (req, res) => {
-    await db.connect();
-    const product = await Product.findById(req.query.id);
-    if (product) {
-      product.name = req.body.name;
-      product.slug = req.body.slug;
-      product.price = req.body.price;
-      product.category = req.body.category;
-      product.image = req.body.image;
-      product.image01 = req.body.image01;
-      product.image02 = req.body.image02;
-      product.countInStock = req.body.countInStock;
-      product.description = req.body.description;
-      await product.save();
-      await db.disconnect();
-      res.send({ message: 'Product Updated Successfully' });
-    } else {
-      await db.disconnect();
-      res.status(404).send({ message: 'Product Not Found' });
-    }
+  await db.connect();
+  const product = await Product.findById(req.query.id);
+  if (product) {
+    product.name = req.body.name;
+    product.slug = req.body.slug;
+    product.price = req.body.price;
+    product.category = req.body.category;
+    product.image = req.body.image;
+    product.image01 = req.body.image01;
+    product.image02 = req.body.image02;
+    product.countInStock = req.body.countInStock;
+    product.description = req.body.description;
+    await product.save();
+    await db.disconnect();
+    res.send({ message: "Product Updated Successfully" });
+  } else {
+    await db.disconnect();
+    res.status(404).send({ message: "Product Not Found" });
+  }
 });
 
 handler.delete(async (req, res) => {
@@ -39,12 +41,11 @@ handler.delete(async (req, res) => {
   if (product) {
     await product.remove();
     await db.disconnect();
-    res.send({ message: 'Product Deleted' });
+    res.send({ message: "Product Deleted" });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: 'Product Not Found' });
+    res.status(404).send({ message: "Product Not Found" });
   }
 });
-
 
 export default handler;

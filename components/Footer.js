@@ -110,7 +110,7 @@ function Footer(props) {
           </Col>
           <Col lg="6" md="6">
             <div className="social__links d-flex align-items-center gap-4">
-              <p className="m-0">Follow: </p>
+              {/* <p className="m-0">Follow: </p> */}
               <span>
                 {" "}
                 <Link href="https://www.facebook.com/" legacyBehavior>

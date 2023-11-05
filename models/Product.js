@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     slug: { type: String, required: true, unique: true },
-    category: { type: String, required: true },
+    category: { type: String, required: true, trim: true },
     image: { type: String, required: true },
     image01: { type: String, required: true },
     image02: { type: String, required: true },
@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema(
     rating: { type: Number, required: true, default: 0 },
     numReviews: { type: Number, required: true, default: 0 },
     countInStock: { type: Number, required: true, default: 0 },
-    description: { type: String, required: true },
+    description: { type: String, required: true, trim: true },
     reviews: [reviewSchema],
   },
   {

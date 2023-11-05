@@ -1,46 +1,50 @@
-import React, { useContext, useEffect } from 'react'
-import Head from 'next/head'
-import { Container, Row, Col } from 'reactstrap'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify'
-import CommonSection from '../components/UI/CommonSection'
-import { Store } from '../helpers/Store'
-import { getError } from '../helpers/error'
+import React, { useContext, useEffect } from "react";
+import Head from "next/head";
+import { Container, Row, Col } from "reactstrap";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import CommonSection from "../components/UI/CommonSection";
+import { Store } from "../helpers/Store";
+import { getError } from "../helpers/error";
 
 const Login = () => {
-  const router = useRouter()
-  const { redirect } = router.query // login?redirect=/shipping
-  const { state, dispatch } = useContext(Store)
-  const { userInfo } = state
+  const router = useRouter();
+  const { redirect } = router.query; // login?redirect=/shipping
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
   useEffect(() => {
     if (userInfo) {
-      router.push('/')
+      router.push("/");
     }
-  }, [])
+  }, []);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const submitHandler = async ({ email, password }) => {
     try {
-      const { data } = await axios.post('/api/users/login', {
+      const { data } = await axios.post("/api/users/login", {
         email,
         password,
-      })
-      dispatch({ type: 'USER_LOGIN', payload: data })
-      Cookies.set('userInfo', data)
-      router.push(redirect || '/')
-      toast.success('Successfully login')
+      });
+      dispatch({ type: "USER_LOGIN", payload: data });
+      Cookies.set("userInfo", data);
+      if (data.isAdmin === true) {
+        router.push("/admin/dashboard");
+      } else {
+        router.push(redirect || "/");
+      }
+      toast.success("Successfully login");
     } catch (err) {
-      toast.error(`${getError(err)}`)
+      toast.error(`${getError(err)}`);
     }
-  }
+  };
 
   return (
     <>
@@ -85,11 +89,12 @@ const Login = () => {
                 <div className="form__group">
                   <input
                     type="email"
-                    {...register('email', {
-                      required: 'Please enter email',
+                    {...register("email", {
+                      required: "Please enter email",
                       pattern: {
-                        value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-                        message: 'Please enter  a valid email address',
+                        value:
+                          /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                        message: "Please enter  a valid email address",
                       },
                     })}
                     placeholder="Email"
@@ -102,11 +107,11 @@ const Login = () => {
                 <div className="form__group">
                   <input
                     type="password"
-                    {...register('password', {
-                      required: 'Please enter password',
+                    {...register("password", {
+                      required: "Please enter password",
                       minLength: {
                         value: 6,
-                        message: 'Password is more than 5 chars',
+                        message: "Password is more than 5 chars",
                       },
                     })}
                     placeholder="Password"
@@ -130,7 +135,7 @@ const Login = () => {
         </Container>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

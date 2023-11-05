@@ -10,7 +10,11 @@ function WhyChooseUs() {
         <Row>
           <Col lg="6" md="6">
             <div className="hero__img w-100">
-              <Image src={whyImg} className="w-100 hero__img h-auto" alt="" />
+              <Image
+                src={whyImg}
+                className="w-100 hero__img h-auto"
+                alt="image-why"
+              />
             </div>
           </Col>
 

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useReducer } from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import Link from 'next/link'
-import { Store } from '../helpers/Store'
-import { useRouter } from 'next/router'
-import { getError } from '../helpers/error'
-import { ToastContainer } from 'react-toastify'
+import React, { useContext, useEffect, useReducer } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Link from "next/link";
+import { Store } from "../helpers/Store";
+import { useRouter } from "next/router";
+import { getError } from "../helpers/error";
+import { ToastContainer } from "react-toastify";
 import {
   Container,
   Row,
@@ -13,49 +13,58 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from 'reactstrap'
-import axios from 'axios'
+} from "reactstrap";
+import axios from "axios";
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, orders: action.payload, error: '' }
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, orders: action.payload, error: "" };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
     default:
-      state
+      state;
   }
 }
 
 function OrderHistory() {
-  const { state } = useContext(Store)
-  const { userInfo } = state
-  const router = useRouter()
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+  const router = useRouter();
 
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     orders: [],
-    error: '',
-  })
+    error: "",
+  });
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login')
+      router.push("/login");
     }
     const fetchOrders = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' })
+        dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(`/api/orders/history`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
-        })
-        dispatch({ type: 'FETCH_SUCCESS', payload: data })
+        });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
-    }
-    fetchOrders()
-  }, [])
+    };
+    fetchOrders();
+  }, []);
+
+  const logoutClickHandler = () => {
+    dispatch({ type: "USER_LOGOUT" });
+    Cookies.remove("userInfo");
+    Cookies.remove("cartItems");
+    Cookies.remove("shippingAddress");
+    Cookies.remove("paymentMethod");
+    router.push("/");
+  };
 
   return (
     <>
@@ -106,6 +115,9 @@ function OrderHistory() {
                 <ListGroupItem action href="/profile" tag="a">
                   Profile
                 </ListGroupItem>
+                <ListGroupItem action onClick={logoutClickHandler} tag="a">
+                  Logout
+                </ListGroupItem>
               </ListGroup>
             </Col>
             <Col lg="9" md="6">
@@ -133,20 +145,31 @@ function OrderHistory() {
                           {orders.map((order) => (
                             <tr key={order._id}>
                               <th scope="row">{order._id.substring(20, 24)}</th>
-                              <td>{order.createdAt}</td>
+                              <td>{`${
+                                order.createdAt.substring(8, 10) +
+                                "/" +
+                                order.createdAt.substring(5, 7) +
+                                "/" +
+                                order.createdAt.substring(0, 4)
+                              }`}</td>
                               <td>${order.totalPrice}</td>
                               <td>
                                 {order.isPaid
                                   ? `paid at ${order.paidAt}`
-                                  : 'not paid'}
+                                  : "not paid"}
                               </td>
                               <td>
+                                {/* date format mm/dd */}
                                 {order.isDelivered
-                                  ? `delivered at ${order.deliveredAt}`
-                                  : 'not delivered'}
+                                  ? `Delivered At ${
+                                      order.deliveredAt.substring(8, 10) +
+                                      "/" +
+                                      order.deliveredAt.substring(5, 7)
+                                    }`
+                                  : "Not Delivered"}
                               </td>
                               <td>
-                                {' '}
+                                {" "}
                                 <Link
                                   href={`/order/${order._id}`}
                                   passHref
@@ -170,7 +193,7 @@ function OrderHistory() {
         </Container>
       </main>
     </>
-  )
+  );
 }
 
-export default dynamic(() => Promise.resolve(OrderHistory), { ssr: false })
+export default dynamic(() => Promise.resolve(OrderHistory), { ssr: false });

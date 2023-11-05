@@ -131,7 +131,7 @@ export default function ProductScreen(props) {
                       onClick={() => setPreviewImg(src)}
                     >
                       <div className="w-50">
-                        <Image src={src} height={50} width={50} alt="" />
+                        <Image src={src} height={50} width={50} alt="img-src" />
                       </div>
                     </div>
                     <div
@@ -139,7 +139,12 @@ export default function ProductScreen(props) {
                       onClick={() => setPreviewImg(src2)}
                     >
                       <div className="w-50">
-                        <Image height={50} width={50} src={src2} alt="" />
+                        <Image
+                          height={50}
+                          width={50}
+                          src={src2}
+                          alt="img-src"
+                        />
                       </div>
                     </div>
 
@@ -148,7 +153,12 @@ export default function ProductScreen(props) {
                       onClick={() => setPreviewImg(src3)}
                     >
                       <div className="w-50">
-                        <Image height={50} width={50} src={src3} alt="" />
+                        <Image
+                          height={50}
+                          width={50}
+                          src={src3}
+                          alt="src-img"
+                        />
                       </div>
                     </div>
                   </div>
@@ -157,7 +167,12 @@ export default function ProductScreen(props) {
                 <Col lg="4" md="4">
                   <div className="product__main-img">
                     <div className="w-100">
-                      <Image src={previewImg} height={200} width={200} alt="" />
+                      <Image
+                        src={previewImg}
+                        height={200}
+                        width={200}
+                        alt="image-preview"
+                      />
                     </div>
                   </div>
                 </Col>
@@ -165,8 +180,7 @@ export default function ProductScreen(props) {
                 <Col lg="6" md="6">
                   <div className="single__product-content">
                     <h2 className="product__title mb-3">{product.name}</h2>
-                    <p className="product__price">
-                      {" "}
+                    <p className="individual_product__price">
                       Price: <span>${product.price}</span>
                     </p>
                     <p className="category mb-2">
