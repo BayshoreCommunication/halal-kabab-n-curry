@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useReducer, useRef } from "react";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import Link from "next/link";
-import "chart.js/auto";
-import { Bar } from "react-chartjs-2";
-import { Store } from "../../helpers/Store";
-import { useRouter } from "next/router";
-import { getError } from "../../helpers/error";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useContext, useEffect, useReducer, useRef } from 'react'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import Link from 'next/link'
+import 'chart.js/auto'
+import { Bar } from 'react-chartjs-2'
+import { Store } from '../../helpers/Store'
+import { useRouter } from 'next/router'
+import { getError } from '../../helpers/error'
+import { ToastContainer, toast } from 'react-toastify'
 import {
   Container,
   Row,
@@ -15,52 +15,52 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from "reactstrap";
-import axios from "axios";
-import { CircularProgress } from "@material-ui/core";
+} from 'reactstrap'
+import axios from 'axios'
+import { CircularProgress } from '@material-ui/core'
 
 function reducer(state, action) {
   switch (action.type) {
-    case "FETCH_REQUEST":
-      return { ...state, loading: true, error: "" };
-    case "FETCH_SUCCESS":
-      return { ...state, loading: false, orders: action.payload, error: "" };
-    case "FETCH_FAIL":
-      return { ...state, loading: false, error: action.payload };
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true, error: '' }
+    case 'FETCH_SUCCESS':
+      return { ...state, loading: false, orders: action.payload, error: '' }
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload }
     default:
-      state;
+      state
   }
 }
 
 function Orders() {
-  const { state } = useContext(Store);
-  const { userInfo } = state;
-  const router = useRouter();
-  const ref = useRef();
+  const { state } = useContext(Store)
+  const { userInfo } = state
+  const router = useRouter()
+  const ref = useRef()
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     orders: [],
-    error: "",
-  });
+    error: '',
+  })
 
   useEffect(() => {
     if (!userInfo) {
-      router.push("/login");
+      router.push('/login')
     }
     const fetchData = async () => {
       try {
-        dispatch({ type: "FETCH_REQUEST" });
+        dispatch({ type: 'FETCH_REQUEST' })
         const { data } = await axios.get(`/api/admin/orders`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
-        });
-        dispatch({ type: "FETCH_SUCCESS", payload: data });
+        })
+        dispatch({ type: 'FETCH_SUCCESS', payload: data })
       } catch (err) {
-        toast.error(`${getError(err)}`);
-        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
+        toast.error(`${getError(err)}`)
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
       }
-    };
-    fetchData();
-  }, []);
+    }
+    fetchData()
+  }, [])
 
   const handleDelivery = async (id) => {
     try {
@@ -68,8 +68,8 @@ function Orders() {
       // if delivered, return
       // if not delivered, update order status to delivered
       if (orders.filter((order) => order._id === id)[0].isDelivered) {
-        toast.error("Order already delivered");
-        return;
+        toast.error('Order already delivered')
+        return
       }
 
       const { data } = await axios.patch(
@@ -77,16 +77,16 @@ function Orders() {
         {},
         {
           headers: { authorization: `Bearer ${userInfo.token}` },
-        }
-      );
+        },
+      )
       // refresh page
-      router.reload();
-      toast.success("Order Delivered");
-      dispatch({ type: "FETCH_SUCCESS", payload: data });
+      router.reload()
+      toast.success('Order Delivered')
+      dispatch({ type: 'FETCH_SUCCESS', payload: data })
     } catch (err) {
-      toast.error(`${getError(err)}`);
+      toast.error(`${getError(err)}`)
     }
-  };
+  }
 
   return (
     <>
@@ -129,11 +129,8 @@ function Orders() {
                 >
                   Orders
                 </ListGroupItem>
-                <ListGroupItem action href="/admin/products" tag="a">
-                  Products
-                </ListGroupItem>
-                <ListGroupItem action href="/admin/modifiers" tag="a">
-                  Modifiers
+                <ListGroupItem action href="/admin/menu" tag="a">
+                  Menu
                 </ListGroupItem>
                 <ListGroupItem action href="/admin/users" tag="a">
                   Users
@@ -165,20 +162,20 @@ function Orders() {
                           <tr key={order._id}>
                             <th scope="row">{order._id.substring(20, 24)}</th>
                             <td>
-                              {order.user ? order.user.name : "DELETED USER"}
+                              {order.user ? order.user.name : 'DELETED USER'}
                             </td>
                             <td>{`${
                               order.createdAt.substring(8, 10) +
-                              "/" +
+                              '/' +
                               order.createdAt.substring(5, 7) +
-                              "/" +
+                              '/' +
                               order.createdAt.substring(0, 4)
                             }`}</td>
                             <td>${order.totalPrice}</td>
                             <td>
                               {order.isPaid
                                 ? `paid at ${order.paidAt}`
-                                : "not paid"}
+                                : 'not paid'}
                             </td>
                             <td>
                               {/* make a button to update order status onClick */}
@@ -189,10 +186,10 @@ function Orders() {
                                 {order.isDelivered
                                   ? `Delivered At ${
                                       order.deliveredAt.substring(8, 10) +
-                                      "/" +
+                                      '/' +
                                       order.deliveredAt.substring(5, 7)
                                     }`
-                                  : "Not Delivered"}
+                                  : 'Not Delivered'}
                               </button>
                             </td>
                             <td>
@@ -216,7 +213,7 @@ function Orders() {
         </Container>
       </main>
     </>
-  );
+  )
 }
 
-export default dynamic(() => Promise.resolve(Orders), { ssr: false });
+export default dynamic(() => Promise.resolve(Orders), { ssr: false })

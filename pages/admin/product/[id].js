@@ -206,11 +206,13 @@ function ProductEdit({ params }) {
                 <ListGroupItem action href="/admin/orders" tag="a">
                   Orders
                 </ListGroupItem>
-                <ListGroupItem action href="/admin/products" tag="a">
-                  Products
-                </ListGroupItem>
-                <ListGroupItem action href="/admin/modifiers" tag="a">
-                  Modifiers
+                <ListGroupItem
+                  action
+                  href="/admin/menu"
+                  className="bg-warning text-light"
+                  tag="a"
+                >
+                  Menu
                 </ListGroupItem>
                 <ListGroupItem action href="/admin/users" tag="a">
                   Users

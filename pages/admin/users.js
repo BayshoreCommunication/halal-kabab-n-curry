@@ -130,11 +130,8 @@ function Users() {
                 <ListGroupItem action href="/admin/orders" tag="a">
                   Orders
                 </ListGroupItem>
-                <ListGroupItem action href="/admin/products" tag="a">
-                  Products
-                </ListGroupItem>
-                <ListGroupItem action href="/admin/modifiers" tag="a">
-                  Modifiers
+                <ListGroupItem action href="/admin/menu" tag="a">
+                  Menu
                 </ListGroupItem>
                 <ListGroupItem
                   action
