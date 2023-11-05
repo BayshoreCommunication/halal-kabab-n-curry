@@ -99,7 +99,6 @@ function AdminDashboard() {
                 <ListGroupItem action href="/admin/menu" tag="a">
                   Menu
                 </ListGroupItem>
-
                 <ListGroupItem action href="/admin/users" tag="a">
                   Users
                 </ListGroupItem>

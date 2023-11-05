@@ -95,8 +95,8 @@ function reducer(state, action) {
 }
 
 function Modifiers() {
-  const [expanded, setExpanded] = React.useState('panel1')
-
+  // Accordion set up state
+  const [expanded, setExpanded] = useState('panel1')
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
   }

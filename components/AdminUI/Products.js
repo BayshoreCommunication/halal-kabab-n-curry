@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useReducer,
   useRef,
+  useState,
 } from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -16,6 +17,8 @@ import { getError } from '../../helpers/error'
 import { ToastContainer, toast } from 'react-toastify'
 import { ListGroup } from 'reactstrap'
 import axios from 'axios'
+import { CircularProgress } from '@material-ui/core'
+import Image from 'next/image'
 
 import { styled } from '@mui/material/styles'
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp'
@@ -23,8 +26,6 @@ import MuiAccordion from '@mui/material/Accordion'
 import MuiAccordionSummary from '@mui/material/AccordionSummary'
 import MuiAccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
-import { CircularProgress } from '@material-ui/core'
-import Image from 'next/image'
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -96,8 +97,8 @@ function reducer(state, action) {
 }
 
 function Products() {
-  const [expanded, setExpanded] = React.useState('panel1')
-
+  // Accordion set up state
+  const [expanded, setExpanded] = useState('panel1')
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
   }
