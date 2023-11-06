@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useReducer, useRef } from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import Link from 'next/link'
-import 'chart.js/auto'
-import { Bar } from 'react-chartjs-2'
-import { Store } from '../../helpers/Store'
-import { useRouter } from 'next/router'
-import { getError } from '../../helpers/error'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { useContext, useEffect, useReducer, useRef } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Link from "next/link";
+import "chart.js/auto";
+import { Bar } from "react-chartjs-2";
+import { Store } from "../../helpers/Store";
+import { useRouter } from "next/router";
+import { getError } from "../../helpers/error";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -15,84 +15,131 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from 'reactstrap'
-import axios from 'axios'
-import { CircularProgress } from '@material-ui/core'
+} from "reactstrap";
+import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
+
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&:before": {
+    display: "none",
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={
+      <ArrowForwardIosSharpIcon
+        sx={{
+          fontSize: "0.9rem",
+        }}
+      />
+    }
+    {...props}
+  />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(255, 255, 255, .05)"
+      : "rgba(0, 0, 0, .03)",
+  flexDirection: "row", // Change flexDirection to 'row'
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginRight: theme.spacing(1), // Change marginLeft to marginRight
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, users: action.payload, error: '' }
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }
-    case 'DELETE_REQUEST':
-      return { ...state, loadingDelete: true }
-    case 'DELETE_SUCCESS':
-      return { ...state, loadingDelete: false, successDelete: true }
-    case 'DELETE_FAIL':
-      return { ...state, loadingDelete: false }
-    case 'DELETE_RESET':
-      return { ...state, loadingDelete: false, successDelete: false }
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, users: action.payload, error: "" };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "DELETE_REQUEST":
+      return { ...state, loadingDelete: true };
+    case "DELETE_SUCCESS":
+      return { ...state, loadingDelete: false, successDelete: true };
+    case "DELETE_FAIL":
+      return { ...state, loadingDelete: false };
+    case "DELETE_RESET":
+      return { ...state, loadingDelete: false, successDelete: false };
     default:
-      state
+      state;
   }
 }
 
 function Users() {
-  const { state } = useContext(Store)
-  const { userInfo } = state
-  const router = useRouter()
-  const ref = useRef()
-  const [
-    { loading, error, users, successDelete, loadingDelete },
-    dispatch,
-  ] = useReducer(reducer, {
-    loading: true,
-    products: [],
-    error: '',
-  })
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+  const router = useRouter();
+  const ref = useRef();
+  const [{ loading, error, users, successDelete, loadingDelete }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      products: [],
+      error: "",
+    });
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login')
+      router.push("/login");
     }
     const fetchData = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' })
+        dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(`/api/admin/users`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
-        })
-        dispatch({ type: 'FETCH_SUCCESS', payload: data })
+        });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
-        toast.error(`${getError(err)}`)
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
+        toast.error(`${getError(err)}`);
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
-    }
+    };
     if (successDelete) {
-      dispatch({ type: 'DELETE_RESET' })
+      dispatch({ type: "DELETE_RESET" });
     } else {
-      fetchData()
+      fetchData();
     }
-  }, [successDelete])
+  }, [successDelete]);
 
   const deleteHandler = async (userId) => {
-    if (!window.confirm('Are you sure?')) {
-      return
+    if (!window.confirm("Are you sure?")) {
+      return;
     }
     try {
-      dispatch({ type: 'DELETE_REQUEST' })
+      dispatch({ type: "DELETE_REQUEST" });
       await axios.delete(`/api/admin/users/${userId}`, {
         headers: { authorization: `Bearer ${userInfo.token}` },
-      })
-      dispatch({ type: 'DELETE_SUCCESS' })
-      toast.success(`User deleted successfully`)
+      });
+      dispatch({ type: "DELETE_SUCCESS" });
+      toast.success(`User deleted successfully`);
     } catch (err) {
-      dispatch({ type: 'DELETE_FAIL' })
-      toast.error(`${getError(err)}`)
+      dispatch({ type: "DELETE_FAIL" });
+      toast.error(`${getError(err)}`);
     }
-  }
+  };
 
   return (
     <>
@@ -155,41 +202,48 @@ function Users() {
                   ) : error ? (
                     <div className="bg-warning">{error}</div>
                   ) : (
-                    <Table responsive>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>NAME</th>
-                          <th>EMAIL</th>
-                          <th>ISADMIN</th>
-                          <th> ACTIONS </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {users.map((user) => (
-                          <tr key={user._id}>
-                            <th scope="row">{user._id.substring(20, 24)}</th>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.isAdmin ? 'YES' : 'NO'}</td>
-                            <td className="d-flex justify-content-between">
-                              {' '}
+                    users?.map((user, index) => (
+                      <Accordion key={index}>
+                        <AccordionSummary>
+                          <Typography className="d-flex flex-column">
+                            {user.name}
+                            <span className="text-muted">
+                              {user._id.substring(16, 24)}
+                            </span>
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            {/* don't use table here to show details  */}
+                            <div className="d-flex justify-content-between">
+                              <div>
+                                <p className="mb-0">
+                                  <strong>Email: </strong>
+                                  {user.email}
+                                </p>
+                                <p className="mb-0">
+                                  <strong>Is Admin: </strong>
+                                  {user.isAdmin ? "YES" : "NO"}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="d-flex gap-2 mt-2">
                               <Link href={`/admin/user/${user._id}`} passHref>
                                 <button className="bg-secondary mr-3 addTOCart__btn">
                                   Edit
                                 </button>
                               </Link>
                               <button
+                                className="bg-secondary mr-3 addTOCart__btn"
                                 onClick={() => deleteHandler(user._id)}
-                                className="btn__3"
                               >
                                 Delete
                               </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                            </div>
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    ))
                   )}
                 </ListGroupItem>
               </ListGroup>
@@ -198,7 +252,7 @@ function Users() {
         </Container>
       </main>
     </>
-  )
+  );
 }
 
-export default dynamic(() => Promise.resolve(Users), { ssr: false })
+export default dynamic(() => Promise.resolve(Users), { ssr: false });

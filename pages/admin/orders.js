@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useReducer, useRef } from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import Link from 'next/link'
-import 'chart.js/auto'
-import { Bar } from 'react-chartjs-2'
-import { Store } from '../../helpers/Store'
-import { useRouter } from 'next/router'
-import { getError } from '../../helpers/error'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { useContext, useEffect, useReducer, useRef } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Link from "next/link";
+import "chart.js/auto";
+import { Store } from "../../helpers/Store";
+import { useRouter } from "next/router";
+import { getError } from "../../helpers/error";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -15,52 +14,100 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from 'reactstrap'
-import axios from 'axios'
-import { CircularProgress } from '@material-ui/core'
+} from "reactstrap";
+import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
+
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&:before": {
+    display: "none",
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={
+      <ArrowForwardIosSharpIcon
+        sx={{
+          fontSize: "0.9rem",
+        }}
+      />
+    }
+    {...props}
+  />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(255, 255, 255, .05)"
+      : "rgba(0, 0, 0, .03)",
+  flexDirection: "row", // Change flexDirection to 'row'
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginRight: theme.spacing(1), // Change marginLeft to marginRight
+  },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, orders: action.payload, error: '' }
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, orders: action.payload, error: "" };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
     default:
-      state
+      state;
   }
 }
 
 function Orders() {
-  const { state } = useContext(Store)
-  const { userInfo } = state
-  const router = useRouter()
-  const ref = useRef()
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+  const router = useRouter();
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     orders: [],
-    error: '',
-  })
+    error: "",
+  });
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login')
+      router.push("/login");
     }
     const fetchData = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' })
+        dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(`/api/admin/orders`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
-        })
-        dispatch({ type: 'FETCH_SUCCESS', payload: data })
+        });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
-        toast.error(`${getError(err)}`)
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
+        toast.error(`${getError(err)}`);
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   const handleDelivery = async (id) => {
     try {
@@ -68,8 +115,8 @@ function Orders() {
       // if delivered, return
       // if not delivered, update order status to delivered
       if (orders.filter((order) => order._id === id)[0].isDelivered) {
-        toast.error('Order already delivered')
-        return
+        toast.error("Order already delivered");
+        return;
       }
 
       const { data } = await axios.patch(
@@ -77,16 +124,16 @@ function Orders() {
         {},
         {
           headers: { authorization: `Bearer ${userInfo.token}` },
-        },
-      )
+        }
+      );
       // refresh page
-      router.reload()
-      toast.success('Order Delivered')
-      dispatch({ type: 'FETCH_SUCCESS', payload: data })
+      router.reload();
+      toast.success("Order Delivered");
+      dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (err) {
-      toast.error(`${getError(err)}`)
+      toast.error(`${getError(err)}`);
     }
-  }
+  };
 
   return (
     <>
@@ -140,71 +187,76 @@ function Orders() {
             <Col lg="9" md="6">
               <ListGroup>
                 <ListGroupItem>
+                  <h1>All Orders</h1>
                   {loading ? (
                     <CircularProgress />
                   ) : error ? (
                     <div className="bg-warning">{error}</div>
                   ) : (
-                    <Table responsive>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>USER</th>
-                          <th>DATE</th>
-                          <th>TOTAL</th>
-                          <th>PAID</th>
-                          <th>DELIVERED</th>
-                          <th>ACTION</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {orders?.map((order) => (
-                          <tr key={order._id}>
-                            <th scope="row">{order._id.substring(20, 24)}</th>
-                            <td>
-                              {order.user ? order.user.name : 'DELETED USER'}
-                            </td>
-                            <td>{`${
-                              order.createdAt.substring(8, 10) +
-                              '/' +
-                              order.createdAt.substring(5, 7) +
-                              '/' +
-                              order.createdAt.substring(0, 4)
-                            }`}</td>
-                            <td>${order.totalPrice}</td>
-                            <td>
-                              {order.isPaid
-                                ? `paid at ${order.paidAt}`
-                                : 'not paid'}
-                            </td>
-                            <td>
-                              {/* make a button to update order status onClick */}
-                              <button
-                                className="btn__3"
-                                onClick={() => handleDelivery(order._id)}
+                    orders?.map((order) => {
+                      return (
+                        <>
+                          <Accordion key={order._id}>
+                            <AccordionSummary>
+                              <Typography>Order ID: {order._id}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Table
+                                striped
+                                bordered
+                                hover
+                                responsive
+                                className="table-sm"
                               >
-                                {order.isDelivered
-                                  ? `Delivered At ${
-                                      order.deliveredAt.substring(8, 10) +
-                                      '/' +
-                                      order.deliveredAt.substring(5, 7)
-                                    }`
-                                  : 'Not Delivered'}
-                              </button>
-                            </td>
-                            <td>
-                              <Link
-                                href={`/order/${order._id}`}
-                                passHref
-                                legacyBehavior
-                              >
-                                <button className="btn__3">Details</button>
-                              </Link>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                                <thead>
+                                  <tr>
+                                    <th>ITEM</th>
+                                    <th>QTY</th>
+                                    <th>PRICE</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {order.orderItems.map((item) => {
+                                    return (
+                                      <tr key={item._id}>
+                                        <td>{item.name}</td>
+                                        <td>{item.quantity}</td>
+                                        <td>${item.price}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </Table>
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <h5>Order Total: ${order.totalPrice}</h5>
+                                  <h5>
+                                    Order Status:{" "}
+                                    {order.isDelivered
+                                      ? "Delivered"
+                                      : "Not Delivered"}
+                                  </h5>
+                                </div>
+                                <div>
+                                  <button
+                                    className={`btn text-white ${
+                                      order.isDelivered
+                                        ? "btn-success disabled"
+                                        : "btn-warning"
+                                    }`}
+                                    onClick={() => handleDelivery(order._id)}
+                                  >
+                                    {order.isDelivered
+                                      ? "Delivered"
+                                      : "Mark As Delivered"}
+                                  </button>
+                                </div>
+                              </div>
+                            </AccordionDetails>
+                          </Accordion>
+                        </>
+                      );
+                    })
                   )}
                 </ListGroupItem>
               </ListGroup>
@@ -213,7 +265,7 @@ function Orders() {
         </Container>
       </main>
     </>
-  )
+  );
 }
 
-export default dynamic(() => Promise.resolve(Orders), { ssr: false })
+export default dynamic(() => Promise.resolve(Orders), { ssr: false });
