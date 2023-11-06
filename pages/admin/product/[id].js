@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useReducer } from 'react'
-import dynamic from 'next/dynamic'
-import Head from 'next/head'
-import { Store } from '../../../helpers/Store'
-import { useRouter } from 'next/router'
-import { getError } from '../../../helpers/error'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { useContext, useEffect, useReducer } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { Store } from "../../../helpers/Store";
+import { useRouter } from "next/router";
+import { getError } from "../../../helpers/error";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Container,
   Row,
@@ -12,110 +12,108 @@ import {
   ListGroup,
   ListGroupItem,
   Table,
-} from 'reactstrap'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
-import { CircularProgress } from '@material-ui/core'
+} from "reactstrap";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, error: '' }
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }
-    case 'UPDATE_REQUEST':
-      return { ...state, loadingUpdate: true, errorUpdate: '' }
-    case 'UPDATE_SUCCESS':
-      return { ...state, loadingUpdate: false, errorUpdate: '' }
-    case 'UPDATE_FAIL':
-      return { ...state, loadingUpdate: false, errorUpdate: action.payload }
-    case 'UPLOAD_REQUEST':
-      return { ...state, loadingUpload: true, errorUpload: '' }
-    case 'UPLOAD_SUCCESS':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, error: "" };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "UPDATE_REQUEST":
+      return { ...state, loadingUpdate: true, errorUpdate: "" };
+    case "UPDATE_SUCCESS":
+      return { ...state, loadingUpdate: false, errorUpdate: "" };
+    case "UPDATE_FAIL":
+      return { ...state, loadingUpdate: false, errorUpdate: action.payload };
+    case "UPLOAD_REQUEST":
+      return { ...state, loadingUpload: true, errorUpload: "" };
+    case "UPLOAD_SUCCESS":
       return {
         ...state,
         loadingUpload: false,
-        errorUpload: '',
-      }
-    case 'UPLOAD_FAIL':
-      return { ...state, loadingUpload: false, errorUpload: action.payload }
+        errorUpload: "",
+      };
+    case "UPLOAD_FAIL":
+      return { ...state, loadingUpload: false, errorUpload: action.payload };
 
     default:
-      return state
+      return state;
   }
 }
 
 function ProductEdit({ params }) {
-  const productId = params.id
-  const { state } = useContext(Store)
-  const [
-    { loading, error, loadingUpdate, loadingUpload },
-    dispatch,
-  ] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  })
+  const productId = params.id;
+  const { state } = useContext(Store);
+  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: "",
+    });
   const {
     handleSubmit,
     register,
     formState: { errors },
     setValue,
-  } = useForm()
-  const { userInfo } = state
-  const router = useRouter()
+  } = useForm();
+  const { userInfo } = state;
+  const router = useRouter();
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login')
+      router.push("/login");
     } else {
       const fetchData = async () => {
         try {
-          dispatch({ type: 'FETCH_REQUEST' })
+          dispatch({ type: "FETCH_REQUEST" });
           const { data } = await axios.get(`/api/admin/products/${productId}`, {
             headers: { authorization: `Bearer ${userInfo.token}` },
-          })
-          dispatch({ type: 'FETCH_SUCCESS' })
-          setValue('name', data.name)
-          setValue('slug', data.slug)
-          setValue('category', data.category)
-          setValue('image', data.image)
-          setValue('image01', data.image01)
-          setValue('image02', data.image02)
-          setValue('price', data.price)
-          setValue('countInStock', data.countInStock)
-          setValue('description', data.description)
+          });
+          dispatch({ type: "FETCH_SUCCESS" });
+          setValue("name", data.name);
+          setValue("slug", data.slug);
+          setValue("category", data.category);
+          setValue("image", data.image);
+          setValue("image01", data.image01);
+          setValue("image02", data.image02);
+          setValue("price", data.price);
+          setValue("countInStock", data.countInStock);
+          setValue("description", data.description);
         } catch (err) {
-          dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
+          dispatch({ type: "FETCH_FAIL", payload: getError(err) });
         }
-      }
-      fetchData()
+      };
+      fetchData();
     }
-  }, [])
+  }, []);
 
-  const uploadHandler = async (e, imageField = 'image') => {
-    const file = e.target.files[0]
-    const bodyFormData = new FormData()
-    bodyFormData.append('file', file)
+  const uploadHandler = async (e, imageField = "image") => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append("file", file);
     try {
-      dispatch({ type: 'UPLOAD_REQUEST' })
-      const { data } = await axios.post('/api/admin/upload', bodyFormData, {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      const { data } = await axios.post("/api/admin/upload", bodyFormData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           authorization: `Bearer ${userInfo.token}`,
         },
-      })
-      dispatch({ type: 'UPLOAD_SUCCESS' })
-      setValue(imageField, data.secure_url)
-      console.log(data.secure_url)
-      toast.success('File uploaded successfully!')
+      });
+      dispatch({ type: "UPLOAD_SUCCESS" });
+      setValue(imageField, data.secure_url);
+      console.log(data.secure_url);
+      toast.success("File uploaded successfully!");
     } catch (err) {
-      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) })
-      toast.error(`${getError(err)}`)
-      console.log('error', err || 'Something went wrong uploading file')
+      dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
+      toast.error(`${getError(err)}`);
+      console.log("error", err || "Something went wrong uploading file");
     }
-  }
+  };
 
   const submitHandler = async ({
     name,
@@ -129,7 +127,7 @@ function ProductEdit({ params }) {
     description,
   }) => {
     try {
-      dispatch({ type: 'UPDATE_REQUEST' })
+      dispatch({ type: "UPDATE_REQUEST" });
       await axios.put(
         `/api/admin/products/${productId}`,
         {
@@ -143,13 +141,13 @@ function ProductEdit({ params }) {
           countInStock,
           description,
         },
-        { headers: { authorization: `Bearer ${userInfo.token}` } },
-      )
-      dispatch({ type: 'UPDATE_SUCCESS' })
-      toast.success(`Product updated successfully`)
-      router.push('/admin/products')
+        { headers: { authorization: `Bearer ${userInfo.token}` } }
+      );
+      dispatch({ type: "UPDATE_SUCCESS" });
+      toast.success(`Product updated successfully`);
+      router.push("/admin/menu");
       console.log(
-        'Product dta' + name,
+        "Product dta" + name,
         slug,
         price,
         category,
@@ -157,13 +155,13 @@ function ProductEdit({ params }) {
         image01,
         image02,
         countInStock,
-        description,
-      )
+        description
+      );
     } catch (err) {
-      dispatch({ type: 'UPDATE_FAIL', payload: getError(err) })
-      toast.error(`${getError(err)}`)
+      dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
+      toast.error(`${getError(err)}`);
     }
-  }
+  };
 
   return (
     <>
@@ -233,8 +231,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('name', {
-                          required: 'Please enter name',
+                        {...register("name", {
+                          required: "Please enter name",
                         })}
                         placeholder="Product name"
                         required
@@ -247,8 +245,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('slug', {
-                          required: 'Slug is required',
+                        {...register("slug", {
+                          required: "Slug is required",
                         })}
                         placeholder="Slug"
                         required
@@ -261,8 +259,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="number"
-                        {...register('price', {
-                          required: 'Price is required',
+                        {...register("price", {
+                          required: "Price is required",
                         })}
                         placeholder="Product price"
                         required
@@ -277,8 +275,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('category', {
-                          required: 'Category is required',
+                        {...register("category", {
+                          required: "Category is required",
                         })}
                         placeholder="Product category"
                         required
@@ -293,8 +291,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('image', {
-                          required: 'Image is required',
+                        {...register("image", {
+                          required: "Image is required",
                         })}
                         placeholder="Product first image"
                         required
@@ -322,8 +320,8 @@ function ProductEdit({ params }) {
                       <input
                         type="text"
                         id="image01"
-                        {...register('image01', {
-                          required: 'Second image is required',
+                        {...register("image01", {
+                          required: "Second image is required",
                         })}
                         placeholder="Product second image"
                         required
@@ -338,7 +336,7 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="file"
-                        onChange={(e) => uploadHandler(e, 'image01')}
+                        onChange={(e) => uploadHandler(e, "image01")}
                         id="upload1"
                         hidden
                       />
@@ -352,8 +350,8 @@ function ProductEdit({ params }) {
                       <input
                         type="text"
                         id="image02"
-                        {...register('image02', {
-                          required: 'Third image is required',
+                        {...register("image02", {
+                          required: "Third image is required",
                         })}
                         placeholder="Product thrid image"
                         required
@@ -368,7 +366,7 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="file"
-                        onChange={(e) => uploadHandler(e, 'image02')}
+                        onChange={(e) => uploadHandler(e, "image02")}
                         id="upload2"
                         hidden
                       />
@@ -381,8 +379,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="text"
-                        {...register('description', {
-                          required: 'Description is required',
+                        {...register("description", {
+                          required: "Description is required",
                         })}
                         placeholder="Product description"
                         required
@@ -397,8 +395,8 @@ function ProductEdit({ params }) {
                     <div className="form__group">
                       <input
                         type="number"
-                        {...register('countInStock', {
-                          required: 'CountInStock is required',
+                        {...register("countInStock", {
+                          required: "CountInStock is required",
                         })}
                         placeholder="Product count"
                         required
@@ -421,13 +419,13 @@ function ProductEdit({ params }) {
         </Container>
       </main>
     </>
-  )
+  );
 }
 
 export async function getServerSideProps({ params }) {
   return {
     props: { params },
-  }
+  };
 }
 
-export default dynamic(() => Promise.resolve(ProductEdit), { ssr: false })
+export default dynamic(() => Promise.resolve(ProductEdit), { ssr: false });

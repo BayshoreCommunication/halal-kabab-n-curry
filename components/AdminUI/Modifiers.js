@@ -14,14 +14,7 @@ import { Store } from "../../helpers/Store";
 import { useRouter } from "next/router";
 import { getError } from "../../helpers/error";
 import { ToastContainer, toast } from "react-toastify";
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Table,
-} from "reactstrap";
+import { ListGroup } from "reactstrap";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 
@@ -238,7 +231,11 @@ function Modifiers() {
                 {modifiers?.map((modifier, index) => {
                   return (
                     // change the desing inside the accordion maybe using table or something else
-                    <Accordion key={index}>
+                    <Accordion
+                      key={index}
+                      expanded={expanded === `${index}`}
+                      onChange={handleChange(`${index}`)}
+                    >
                       <AccordionSummary
                         aria-controls={`panel${index + 1}d-content`}
                         id={`panel${index + 1}d-header`}

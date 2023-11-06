@@ -37,10 +37,13 @@ function Placeorder() {
 
   const shippingPrice = itemsPrice > 200 ? 0 : 15;
   const taxPrice = round2(itemsPrice * 0.15);
-  const totalAddons = cartItems.reduce(
-    (a, c) => a + c.addonPrice * c.quantity,
-    0
-  );
+  const totalAddons = cartItems.reduce((a, c) => {
+    if (c.addon) {
+      return a + c.addonPrice * c.quantity;
+    } else {
+      return a;
+    }
+  }, 0);
 
   const totalPrice = round2(
     itemsPrice + shippingPrice + taxPrice + totalAddons
@@ -52,9 +55,6 @@ function Placeorder() {
     if (cartItems.length === 0) {
       router.push("/cart");
     }
-  }, []);
-
-  useEffect(() => {
     cartItems ? setIsCart(true) : setIsCart(false);
   }, []);
 

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
@@ -90,6 +96,12 @@ function reducer(state, action) {
 }
 
 function Users() {
+  // Accordion set up state
+  const [expanded, setExpanded] = useState("panel1");
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   const { state } = useContext(Store);
   const { userInfo } = state;
   const router = useRouter();
@@ -203,7 +215,11 @@ function Users() {
                     <div className="bg-warning">{error}</div>
                   ) : (
                     users?.map((user, index) => (
-                      <Accordion key={index}>
+                      <Accordion
+                        key={index}
+                        expanded={expanded === `${index}`}
+                        onChange={handleChange(`${index}`)}
+                      >
                         <AccordionSummary>
                           <Typography className="d-flex flex-column">
                             {user.name}

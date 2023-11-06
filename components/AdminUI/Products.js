@@ -228,11 +228,11 @@ function Products() {
                   {loadingCreate && <div>Waiting...</div>}
                   {loadingDelete && <div>Waiting...</div>}
                 </div>
-                {cetegoies.map((category) => (
+                {cetegoies.map((category, index) => (
                   <Accordion
-                    key={category}
-                    expanded={expanded === `${category}`}
-                    onChange={handleChange(`${category}`)}
+                    key={index}
+                    expanded={expanded === `${index}`}
+                    onChange={handleChange(`${index}`)}
                   >
                     <AccordionSummary
                       aria-controls="panel1d-content"

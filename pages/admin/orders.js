@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
@@ -81,6 +87,12 @@ function reducer(state, action) {
 }
 
 function Orders() {
+  // Accordion set up state
+  const [expanded, setExpanded] = useState("panel1");
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   const { state } = useContext(Store);
   const { userInfo } = state;
   const router = useRouter();
@@ -134,8 +146,6 @@ function Orders() {
       toast.error(`${getError(err)}`);
     }
   };
-
-  console.log("orders", orders);
 
   return (
     <>
@@ -195,10 +205,14 @@ function Orders() {
                   ) : error ? (
                     <div className="bg-warning">{error}</div>
                   ) : (
-                    orders?.map((order) => {
+                    orders?.map((order, index) => {
                       return (
                         <>
-                          <Accordion key={order._id}>
+                          <Accordion
+                            key={index}
+                            expanded={expanded === `${index}`}
+                            onChange={handleChange(`${index}`)}
+                          >
                             <AccordionSummary>
                               <Typography>Order ID: {order._id}</Typography>
                             </AccordionSummary>
