@@ -135,6 +135,8 @@ function Orders() {
     }
   };
 
+  console.log("orders", orders);
+
   return (
     <>
       <Head>
@@ -201,6 +203,7 @@ function Orders() {
                               <Typography>Order ID: {order._id}</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
+                              {/*  */}
                               <Table
                                 striped
                                 bordered
@@ -212,6 +215,7 @@ function Orders() {
                                   <tr>
                                     <th>ITEM</th>
                                     <th>QTY</th>
+                                    <th>ADDON</th>
                                     <th>PRICE</th>
                                   </tr>
                                 </thead>
@@ -221,7 +225,11 @@ function Orders() {
                                       <tr key={item._id}>
                                         <td>{item.name}</td>
                                         <td>{item.quantity}</td>
-                                        <td>${item.price}</td>
+                                        <td>
+                                          {item?.addon} $
+                                          {item?.addonPrice * item?.quantity}
+                                        </td>
+                                        <td>${item.price * item?.quantity}</td>
                                       </tr>
                                     );
                                   })}
@@ -229,6 +237,8 @@ function Orders() {
                               </Table>
                               <div className="d-flex justify-content-between">
                                 <div>
+                                  <h5>Tax: {order.taxPrice}</h5>
+                                  <h5>Shipping: {order.shippingPrice}</h5>
                                   <h5>Order Total: ${order.totalPrice}</h5>
                                   <h5>
                                     Order Status:{" "}
