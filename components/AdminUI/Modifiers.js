@@ -216,108 +216,102 @@ function Modifiers() {
       </Head>
       <main>
         <ToastContainer />
-        <Container className="mt-4 mb-4">
-          <Row>
-            <ListGroup>
+
+        <ListGroup>
+          <>
+            {loading ? (
+              <CircularProgress />
+            ) : error ? (
+              <div className="bg-warning">{error}</div>
+            ) : (
               <>
-                {loading ? (
-                  <CircularProgress />
-                ) : error ? (
-                  <div className="bg-warning">{error}</div>
-                ) : (
-                  <>
-                    <div className="d-flex justify-content-end mb-2 mt-2">
-                      <button
-                        className="addTOCart__btn"
-                        onClick={createHandler}
+                <div className="d-flex justify-content-end">
+                  <button
+                    className="addTOCart__btn mb-2"
+                    onClick={createHandler}
+                  >
+                    Create
+                  </button>
+                  {loadingCreate && <div>Waiting...</div>}
+                  {loadingDelete && <div>Waiting...</div>}
+                </div>
+                {modifiers?.map((modifier, index) => {
+                  return (
+                    // change the desing inside the accordion maybe using table or something else
+                    <Accordion key={index}>
+                      <AccordionSummary
+                        aria-controls={`panel${index + 1}d-content`}
+                        id={`panel${index + 1}d-header`}
                       >
-                        Create
-                      </button>
-                      {loadingCreate && <div>Waiting...</div>}
-                      {loadingDelete && <div>Waiting...</div>}
-                    </div>
-                    {modifiers?.map((modifier, index) => {
-                      return (
-                        // change the desing inside the accordion maybe using table or something else
-                        <Accordion key={index}>
-                          <AccordionSummary
-                            aria-controls={`panel${index + 1}d-content`}
-                            id={`panel${index + 1}d-header`}
-                          >
-                            <Typography className="text-capitalize">
-                              {modifier.title}
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <Typography>
-                              <div className="d-flex flex-column">
-                                <div>
-                                  <span>Option: </span>
-                                  {modifier?.option.map((item, index) => {
-                                    return (
-                                      <label>
-                                        {item}
-                                        {index !==
-                                          modifier?.option.length - 1 && (
-                                          <span className="text-muted">, </span>
-                                        )}
-                                      </label>
-                                    );
-                                  })}
-                                </div>
-                                <div>
-                                  <span>Used In: </span>
-                                  {modifier?.usedIn.map((item, index) => {
-                                    return (
-                                      <label>
-                                        {products.map((product) => {
-                                          if (product._id === item) {
-                                            return (
-                                              product.name +
-                                              (index !==
-                                              modifier?.usedIn.length - 1
-                                                ? ", "
-                                                : "")
-                                            );
-                                          }
-                                        })}
-                                      </label>
-                                    );
-                                  })}
-                                </div>
-                                <div>
-                                  <span>Price: </span>
-                                  {modifier?.price}
-                                </div>
-                                <div className="d-flex gap-3 mt-3">
-                                  <Link
-                                    href={`/admin/modifier/${modifier?._id}`}
-                                    passHref
-                                    legacyBehavior
-                                  >
-                                    <button className="bg-secondary mr-3 addTOCart__btn">
-                                      Edit
-                                    </button>
-                                  </Link>
-                                  <button
-                                    onClick={() => deleteHandler(modifier?._id)}
-                                    className="btn__3"
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            </Typography>
-                          </AccordionDetails>
-                        </Accordion>
-                      );
-                    })}
-                  </>
-                )}
+                        <Typography className="text-capitalize">
+                          {modifier.title}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography>
+                          <div className="d-flex flex-column">
+                            <div>
+                              <span>Option: </span>
+                              {modifier?.option.map((item, index) => {
+                                return (
+                                  <label>
+                                    {item}
+                                    {index !== modifier?.option.length - 1 &&
+                                      ","}
+                                  </label>
+                                );
+                              })}
+                            </div>
+                            <div>
+                              <span>Used In: </span>
+                              {modifier?.usedIn.map((item, index) => {
+                                return (
+                                  <label>
+                                    {products.map((product) => {
+                                      if (product._id === item) {
+                                        return (
+                                          product.name +
+                                          (index !== modifier?.usedIn.length - 1
+                                            ? ","
+                                            : "")
+                                        );
+                                      }
+                                    })}
+                                  </label>
+                                );
+                              })}
+                            </div>
+                            <div>
+                              <span>Price: </span>
+                              {modifier?.price}
+                            </div>
+                            <div className="d-flex gap-3 mt-3">
+                              <Link
+                                href={`/admin/modifier/${modifier?._id}`}
+                                passHref
+                                legacyBehavior
+                              >
+                                <button className="bg-secondary mr-3 addTOCart__btn">
+                                  Edit
+                                </button>
+                              </Link>
+                              <button
+                                onClick={() => deleteHandler(modifier?._id)}
+                                className="btn__3"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                })}
               </>
-            </ListGroup>
-          </Row>
-        </Container>
+            )}
+          </>
+        </ListGroup>
       </main>
     </>
   );
