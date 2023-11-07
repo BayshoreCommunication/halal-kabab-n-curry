@@ -220,7 +220,7 @@ function ProductEdit({ params }) {
 
             <Col lg="9" md="6">
               <ListGroup>
-                <ListGroupItem className="">
+                <ListGroupItem className="bg__2">
                   {loading && <CircularProgress />}
                   {error && <div className="text-bg-warning">{error}</div>}
                   <h6 className="mb-4">Edit {productId} </h6>

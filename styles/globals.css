@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&family=Pacifico&display=swap");
 /* google fonts */
 
-@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web&display=swap");
 /* reset default style */
 
 * {
@@ -20,7 +20,7 @@ body {
   padding: 0;
   margin: 0;
   background: #fcfcfc;
-  font-family: 'Istok Web', sans-serif;
+  font-family: "Istok Web", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.7px;
@@ -32,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'RocknRoll One', sans-serif !important;
+  font-family: "RocknRoll One", sans-serif !important;
 }
 
 a {
@@ -166,7 +166,7 @@ a {
   font-weight: bold;
   color: #f8b60d;
   font-size: 25px;
-  font-family: 'Pacifico';
+  font-family: "Pacifico";
   margin-left: 20px;
   margin-bottom: 3px;
 }
@@ -1437,7 +1437,6 @@ a {
 .form {
   width: 60%;
   margin: auto;
-  background: #fff4d6;
   padding: 20px;
   border-radius: 5px;
 }
@@ -1638,7 +1637,7 @@ a {
   margin: auto;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap");
 
 .popup .content {
   position: absolute;
